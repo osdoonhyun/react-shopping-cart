@@ -10,74 +10,74 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root';
-import { Route as OrderListImport } from './routes/orderList';
-import { Route as OrderImport } from './routes/order';
-import { Route as ListImport } from './routes/list';
-import { Route as CartImport } from './routes/cart';
-import { Route as IndexImport } from './routes/index';
-import { Route as ListProductIdImport } from './routes/list.$productId';
+import { Route as rootRoute } from './routes/__root'
+import { Route as OrderListImport } from './routes/orderList'
+import { Route as OrderImport } from './routes/order'
+import { Route as ListImport } from './routes/list'
+import { Route as CartImport } from './routes/cart'
+import { Route as IndexImport } from './routes/index'
+import { Route as ListProductIdImport } from './routes/list.$productId'
 
 // Create/Update Routes
 
 const OrderListRoute = OrderListImport.update({
   path: '/orderList',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const OrderRoute = OrderImport.update({
   path: '/order',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ListRoute = ListImport.update({
   path: '/list',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const CartRoute = CartImport.update({
   path: '/cart',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ListProductIdRoute = ListProductIdImport.update({
   path: '/$productId',
   getParentRoute: () => ListRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/cart': {
-      preLoaderRoute: typeof CartImport;
-      parentRoute: typeof rootRoute;
-    };
+      preLoaderRoute: typeof CartImport
+      parentRoute: typeof rootRoute
+    }
     '/list': {
-      preLoaderRoute: typeof ListImport;
-      parentRoute: typeof rootRoute;
-    };
+      preLoaderRoute: typeof ListImport
+      parentRoute: typeof rootRoute
+    }
     '/order': {
-      preLoaderRoute: typeof OrderImport;
-      parentRoute: typeof rootRoute;
-    };
+      preLoaderRoute: typeof OrderImport
+      parentRoute: typeof rootRoute
+    }
     '/orderList': {
-      preLoaderRoute: typeof OrderListImport;
-      parentRoute: typeof rootRoute;
-    };
+      preLoaderRoute: typeof OrderListImport
+      parentRoute: typeof rootRoute
+    }
     '/list/$productId': {
-      preLoaderRoute: typeof ListProductIdImport;
-      parentRoute: typeof ListImport;
-    };
+      preLoaderRoute: typeof ListProductIdImport
+      parentRoute: typeof ListImport
+    }
   }
 }
 
@@ -89,6 +89,6 @@ export const routeTree = rootRoute.addChildren([
   ListRoute.addChildren([ListProductIdRoute]),
   OrderRoute,
   OrderListRoute,
-]);
+])
 
 /* prettier-ignore-end */

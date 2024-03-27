@@ -5,7 +5,8 @@ export default function Header() {
     <header>
       <nav className='nav flex justify-around'>
         <div className='flex-center'>
-          <Link to='/' className='font-bold'>
+          <Link to='/list' className='font-bold'>
+            {/* TODO: 카트 로고 수정하기 */}
             <h1 className='nav-title'>🛒 NEXTSTEP</h1>
           </Link>
         </div>
