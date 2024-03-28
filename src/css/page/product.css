@@ -7,6 +7,17 @@
   padding: 50px 240px;
 }
 
+.product-item-box {
+  cursor: pointer;
+}
+
+.product-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 46px;
+}
+
 .product-info {
   display: flex;
   flex-direction: column;
@@ -17,6 +28,7 @@
 }
 
 .product-info__price {
+  margin-top: 5px;
 }
 
 .product-detail-container {
