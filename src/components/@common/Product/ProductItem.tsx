@@ -1,5 +1,7 @@
-import { Product } from '@components/types/product';
+import { MouseEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { usePostCartProductMutation } from '@components/hooks/mutations/usePostCartProductMutation';
+import { Product } from '@components/types/product';
 
 interface ProductItemProps extends Product {}
 
@@ -11,10 +13,16 @@ export default function ProductItem({
 }: ProductItemProps) {
   const navigate = useNavigate({ from: '/list' });
 
+  const { mutate: postCartProduct } = usePostCartProductMutation();
+
   const handleClickProductItem = (productId: string) => {
     navigate({ to: '/list/$productId', params: { productId } });
   };
 
+  const handleCartClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    postCartProduct({ product: { id, name, price, imageUrl } });
+  };
   return (
     <li
       className='product-item-box'
@@ -26,7 +34,7 @@ export default function ProductItem({
           <span className='product-info__name'>{name}</span>
           <span className='product-info__price'>{price}원</span>
         </div>
-        <button>
+        <button onClick={handleCartClick}>
           <img src='@/assets/svgs/cart.svg' alt='장바구니' />
         </button>
       </div>
