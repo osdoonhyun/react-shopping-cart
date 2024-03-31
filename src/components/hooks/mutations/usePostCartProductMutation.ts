@@ -9,7 +9,7 @@ export const usePostCartProductMutation = () => {
   const postCartProductMutation = useMutation({
     mutationFn: postCartProduct,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['cartProductList'] });
+      queryClient.invalidateQueries({ queryKey: ['cartProducts'] });
 
       addToCart(data);
     },
