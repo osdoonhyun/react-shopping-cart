@@ -4,13 +4,3 @@ export interface Product {
   price: number;
   imageUrl: string;
 }
-
-export interface CartProduct {
-  id: number;
-  product: Product;
-}
-
-export interface OrderProduct extends CartProduct {
-  quantity: number;
-  selected: boolean;
-}

@@ -1,4 +1,4 @@
-import { CartProduct } from '@/types/product';
+import { CartProduct } from '@/types/cart';
 import { Fragment } from 'react/jsx-runtime';
 
 interface CartProductsProps {
