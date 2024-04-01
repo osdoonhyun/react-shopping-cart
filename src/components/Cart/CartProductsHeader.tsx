@@ -1,4 +1,4 @@
-import useCartStore from '@/components/store/cartStore';
+import useCartStore from '@/store/cartStore';
 
 export default function CartProductsHeader() {
   const cart = useCartStore.use.cart();

@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import list from '@/mocks/db.json';
-import { CartProduct } from '@components/types/product';
+import { CartProduct } from '@/types/product';
 
 export const handlers = [
   http.get('/products', () => {

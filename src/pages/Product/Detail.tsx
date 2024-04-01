@@ -1,5 +1,5 @@
-import ProductDetail from '@components/@common/Product/ProductDetail';
-import { useGetProductDetailQuery } from '@components/hooks/queries/useGetProductDetailQuery';
+import ProductDetail from '@components/Product/ProductDetail';
+import { useGetProductDetailQuery } from '@/hooks/queries/useGetProductDetailQuery';
 
 type DetailProps = {
   id: string;

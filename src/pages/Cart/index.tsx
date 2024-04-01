@@ -1,9 +1,9 @@
-import CartHeader from '@components/@common/Cart/CartHeader';
-import CartPayments from '@components/@common/Cart/CartPayments';
-import CartProducts from '@components/@common/Cart/CartProducts';
-import CartProductsHeader from '@components/@common/Cart/CartProductsHeader';
-import CartToolBar from '@components/@common/Cart/CartToolBar';
-import { useGetCartProductsQuery } from '@components/hooks/queries/useGetCartProductsQuery';
+import CartHeader from '@components/Cart/CartHeader';
+import CartPayments from '@components/Cart/CartPayments';
+import CartProducts from '@components/Cart/CartProducts';
+import CartProductsHeader from '@components/Cart/CartProductsHeader';
+import CartToolBar from '@components/Cart/CartToolBar';
+import { useGetCartProductsQuery } from '@/hooks/queries/useGetCartProductsQuery';
 
 export default function Cart() {
   const { cartProducts } = useGetCartProductsQuery();

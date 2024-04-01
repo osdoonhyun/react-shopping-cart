@@ -1,4 +1,4 @@
-import { getProducts } from '@components/apis/Product/getProducts';
+import { getProducts } from '@/apis/Product/getProducts';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetProductsQuery = () => {

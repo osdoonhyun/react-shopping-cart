@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartProduct } from '@components/types/product';
+import { CartProduct } from '@/types/product';
 
 export const postCartProduct = async (
   product: Pick<CartProduct, 'product'>

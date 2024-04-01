@@ -1,6 +1,6 @@
-import ProductItem from '@components/@common/Product/ProductItem';
-import { useGetProductsQuery } from '@components/hooks/queries/useGetProductsQuery';
-import { Product } from '@components/types/product';
+import ProductItem from '@components/Product/ProductItem';
+import { useGetProductsQuery } from '@/hooks/queries/useGetProductsQuery';
+import { Product } from '@/types/product';
 
 export default function ProductList() {
   const { products } = useGetProductsQuery();

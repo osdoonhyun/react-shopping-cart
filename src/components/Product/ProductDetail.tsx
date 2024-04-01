@@ -1,4 +1,4 @@
-import { Product } from '@components/types/product';
+import { Product } from '@/types/product';
 
 export default function ProductDetail({ id, name, price, imageUrl }: Product) {
   return (

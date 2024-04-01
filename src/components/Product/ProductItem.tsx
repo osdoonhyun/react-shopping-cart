@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { usePostCartProductMutation } from '@components/hooks/mutations/usePostCartProductMutation';
-import { Product } from '@components/types/product';
+import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
+import { Product } from '@/types/product';
 
 interface ProductItemProps extends Product {}
 
