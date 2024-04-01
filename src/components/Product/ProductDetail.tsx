@@ -1,6 +1,18 @@
+import { useNavigate } from '@tanstack/react-router';
 import { Product } from '@/types/product';
+import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
 
 export default function ProductDetail({ id, name, price, imageUrl }: Product) {
+  const navigate = useNavigate();
+
+  const { mutate: postCartProduct } = usePostCartProductMutation();
+
+  const handleCartClick = () => {
+    postCartProduct({ product: { id, name, price, imageUrl } });
+
+    navigate({ to: '/cart' });
+  };
+
   return (
     <div className='product-detail-container'>
       <div className='flex-col-center w-520'>
@@ -13,7 +25,10 @@ export default function ProductDetail({ id, name, price, imageUrl }: Product) {
             <span className='product-detail-info__price'>{price}원</span>
           </div>
         </div>
-        <button className='product-detail-button flex-center mt-20'>
+        <button
+          onClick={handleCartClick}
+          className='product-detail-button flex-center mt-20'
+        >
           장바구니
         </button>
       </div>
