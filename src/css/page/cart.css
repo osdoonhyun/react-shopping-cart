@@ -58,3 +58,14 @@
   color: #333333;
   align-self: flex-end;
 }
+
+.cart-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}
+.cart-empty-message {
+  font-size: 16px;
+  color: #555;
+}

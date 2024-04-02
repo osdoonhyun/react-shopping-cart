@@ -52,60 +52,70 @@ export default function CartTable({
     <>
       {/* CartToolBar */}
       <div className='flex justify-between items-center'>
-        <div className='checkbox-container'>
-          <input
-            className='checkbox'
-            name='checkbox'
-            type='checkbox'
-            checked={isSelectedAll()}
-            onChange={handleSelectAllChange}
-          />
-          <label className='checkbox-label' htmlFor='checkbox'>
-            선택해제
-          </label>
-        </div>
+        {cart?.length > 0 && (
+          <>
+            <div className='checkbox-container'>
+              <input
+                className='checkbox'
+                name='checkbox'
+                type='checkbox'
+                checked={isSelectedAll()}
+                onChange={handleSelectAllChange}
+              />
+              <label className='checkbox-label' htmlFor='checkbox'>
+                {isSelectedAll() ? '선택해제' : '전체선택'}
+              </label>
+            </div>
 
-        <button className='delete-button'>상품삭제</button>
+            <button className='delete-button'>상품삭제</button>
+          </>
+        )}
       </div>
 
       {/* CartProductsHeader */}
       <h3 className='cart-title'>{`든든배송 상품(${cart?.length ?? 0}개)`}</h3>
       <hr className='divide-line-gray mt-10' />
 
-      {cartProducts?.map(
-        ({ product: { id, name, price, imageUrl } }: CartProduct) => (
-          <Fragment key={id}>
-            <div className='cart-container'>
-              <div className='flex gap-15 mt-10'>
-                <input
-                  className='checkbox'
-                  name='checkbox'
-                  type='checkbox'
-                  checked={selection.has(id)}
-                  onChange={() => handleSelectChange(id)}
-                />
-                <img className='w-144 h-144' src={imageUrl} alt={name} />
-                <span className='cart-name'>{name}</span>
-              </div>
-              <div className='flex-col-center justify-end gap-15'>
-                <img
-                  className='cart-trash-svg'
-                  src='@/assets/svgs/trash.svg'
-                  alt='삭제'
-                />
-                <div className='number-input-container'>
-                  <input type='number' className='number-input' value='1' />
-                  <div>
-                    <button className='number-input-button'>▲</button>
-                    <button className='number-input-button'>▼</button>
-                  </div>
+      {cartProducts?.length > 0 ? (
+        cartProducts?.map(
+          ({ product: { id, name, price, imageUrl } }: CartProduct) => (
+            <Fragment key={id}>
+              <div className='cart-container'>
+                <div className='flex gap-15 mt-10'>
+                  <input
+                    className='checkbox'
+                    name='checkbox'
+                    type='checkbox'
+                    checked={selection.has(id)}
+                    onChange={() => handleSelectChange(id)}
+                  />
+                  <img className='w-144 h-144' src={imageUrl} alt={name} />
+                  <span className='cart-name'>{name}</span>
                 </div>
-                <span className='cart-price'>{price}원</span>
+                <div className='flex-col-center justify-end gap-15'>
+                  <img
+                    className='cart-trash-svg'
+                    src='@/assets/svgs/trash.svg'
+                    alt='삭제'
+                  />
+                  <div className='number-input-container'>
+                    <input type='number' className='number-input' value='1' />
+                    <div>
+                      <button className='number-input-button'>▲</button>
+                      <button className='number-input-button'>▼</button>
+                    </div>
+                  </div>
+                  <span className='cart-price'>{price}원</span>
+                </div>
               </div>
-            </div>
-            <hr className='divide-line-thin mt-10' />
-          </Fragment>
+              <hr className='divide-line-thin mt-10' />
+            </Fragment>
+          )
         )
+      ) : (
+        <div className='cart-empty'>
+          <p className='cart-empty-message'>장바구니에 담긴 상품이 없습니다.</p>
+        </div>
       )}
     </>
   );
