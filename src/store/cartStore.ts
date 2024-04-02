@@ -1,17 +1,14 @@
 import create from 'zustand';
 import createSelectors from '@/store/selectors';
-import { CartProduct, CartProductWithSelection } from '@/types/cart';
+import { CartProduct } from '@/types/cart';
 
 interface cartState {
-  cart: CartProductWithSelection[];
+  cart: CartProduct[];
 
   addToCart: (product: CartProduct) => void; // 상품 추가
   removeProduct: (productId: CartProduct['id']) => void;
-  toggleProduct: (productId: CartProduct['id']) => void;
   increaseProductQuantity: (productId: CartProduct['id']) => void;
   decreaseProductQuantity: (productId: CartProduct['id']) => void;
-  selectAllProducts: () => void;
-  unselectAllProducts: () => void;
 }
 
 const useCartStoreBase = create<cartState>()((set) => ({
@@ -27,7 +24,7 @@ const useCartStoreBase = create<cartState>()((set) => ({
         alert('이미 장바구니에 있는 상품입니다.');
         return { cart: [...state.cart] };
       } else {
-        const newProduct = { ...product, quantity: 1, selected: false };
+        const newProduct = { ...product, quantity: 1 };
 
         return { cart: [...state.cart, newProduct] };
       }
@@ -36,14 +33,6 @@ const useCartStoreBase = create<cartState>()((set) => ({
   removeProduct: (productId) =>
     set((state) => ({
       cart: state.cart.filter((item) => item.product.id !== productId),
-    })),
-  toggleProduct: (productId) =>
-    set((state) => ({
-      cart: state.cart.map((item) =>
-        item.product.id === productId
-          ? { ...item, selected: !item.selected }
-          : item
-      ),
     })),
   increaseProductQuantity: (productId) =>
     set((state) => ({
@@ -60,14 +49,6 @@ const useCartStoreBase = create<cartState>()((set) => ({
           ? { ...item, quantity: (item.quantity ?? 1) - 1 }
           : item
       ),
-    })),
-  selectAllProducts: () =>
-    set((state) => ({
-      cart: state.cart.map((item) => ({ ...item, selected: true })),
-    })),
-  unselectAllProducts: () =>
-    set((state) => ({
-      cart: state.cart.map((item) => ({ ...item, selected: false })),
     })),
 }));
 
