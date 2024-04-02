@@ -1,12 +1,13 @@
+import { useState } from 'react';
+import { useGetCartProductsQuery } from '@/hooks/queries/useGetCartProductsQuery';
+import CartTable from '@components/Cart/CartTable';
 import CartHeader from '@components/Cart/CartHeader';
 import CartPayments from '@components/Cart/CartPayments';
-import CartProducts from '@components/Cart/CartProducts';
-import CartProductsHeader from '@components/Cart/CartProductsHeader';
-import CartToolBar from '@components/Cart/CartToolBar';
-import { useGetCartProductsQuery } from '@/hooks/queries/useGetCartProductsQuery';
+import { CartProduct } from '@/types/cart';
 
 export default function Cart() {
   const { cartProducts } = useGetCartProductsQuery();
+  const [selectedProducts, setSelectedProducts] = useState<CartProduct[]>([]);
 
   return (
     <section className='cart-section'>
@@ -14,9 +15,10 @@ export default function Cart() {
 
       <div className='flex'>
         <section className='cart-left-section'>
-          <CartToolBar />
-          <CartProductsHeader />
-          <CartProducts cartProducts={cartProducts} />
+          <CartTable
+            cartProducts={cartProducts}
+            selectProduct={setSelectedProducts}
+          />
         </section>
 
         <section className='cart-right-section'>
