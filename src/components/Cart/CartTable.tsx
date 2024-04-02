@@ -6,6 +6,9 @@ interface CartProductsProps {
   selectProduct: React.Dispatch<React.SetStateAction<CartProduct[]>>;
 }
 
+const MIN_PRODUCT_COUNT = 1;
+const MAX_PRODUCT_COUNT = 20;
+
 export default function CartTable({ selectProduct }: CartProductsProps) {
   const [selection, setSelection] = useState(new Set());
 
@@ -47,17 +50,19 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
   };
 
   const handleIncreaseQuantity = (productId: CartProduct['id']) => {
+    const targetProduct = cart.find(({ product }) => product.id === productId);
+
+    if ((targetProduct?.quantity ?? 0) >= MAX_PRODUCT_COUNT) {
+      return;
+    }
+
     increaseQuantity(productId);
 
-    const updatedProduct = cart.find(
-      (product) => product.product.id === productId
-    );
-
-    if (updatedProduct) {
+    if (targetProduct) {
       selectProduct((prevProducts) =>
         prevProducts.map((product) =>
           product.product.id === productId
-            ? { ...product, quantity: (updatedProduct.quantity ?? 0) + 1 }
+            ? { ...product, quantity: (targetProduct.quantity ?? 0) + 1 }
             : product
         )
       );
@@ -65,17 +70,19 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
   };
 
   const handleDecreaseQuantity = (productId: CartProduct['id']) => {
+    const targetProduct = cart.find(({ product }) => product.id === productId);
+
+    if ((targetProduct?.quantity ?? 0) <= MIN_PRODUCT_COUNT) {
+      return;
+    }
+
     decreaseQuantity(productId);
 
-    const updatedProduct = cart.find(
-      (product) => product.product.id === productId
-    );
-
-    if (updatedProduct) {
+    if (targetProduct) {
       selectProduct((prevProducts) =>
         prevProducts.map((product) =>
           product.product.id === productId
-            ? { ...product, quantity: (updatedProduct.quantity ?? 0) - 1 }
+            ? { ...product, quantity: (targetProduct.quantity ?? 0) - 1 }
             : product
         )
       );
@@ -150,6 +157,7 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
                         type='number'
                         className='number-input'
                         value={quantity}
+                        readOnly
                       />
                       <div>
                         <button
