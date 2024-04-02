@@ -1,8 +1,12 @@
-import useCartStore from '@/store/cartStore';
+interface CartPaymentsProps {
+  totalQuantity: () => number;
+  totalAmount: () => number;
+}
 
-export default function CartPayments() {
-  const cart = useCartStore.use.cart();
-
+export default function CartPayments({
+  totalQuantity,
+  totalAmount,
+}: CartPaymentsProps) {
   return (
     <>
       <div className='cart-right-section__top'>
@@ -12,11 +16,11 @@ export default function CartPayments() {
       <div className='cart-right-section__bottom'>
         <div className='flex justify-between p-20 mt-20'>
           <span className='highlight-text'>결제예상금액</span>
-          <span className='highlight-text'>21,800원</span>
+          <span className='highlight-text'>{`${totalAmount()}원`}</span>
         </div>
         <div className='flex-center mt-30 mx-10'>
           <button className='primary-button flex-center'>
-            {`주문하기(${cart.length}개)`}
+            {`주문하기(${totalQuantity()}개)`}
           </button>
         </div>
       </div>

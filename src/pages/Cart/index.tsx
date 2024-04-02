@@ -1,13 +1,22 @@
-import { useState } from 'react';
-import { useGetCartProductsQuery } from '@/hooks/queries/useGetCartProductsQuery';
+import { useCallback, useState } from 'react';
 import CartTable from '@components/Cart/CartTable';
 import CartHeader from '@components/Cart/CartHeader';
 import CartPayments from '@components/Cart/CartPayments';
 import { CartProduct } from '@/types/cart';
 
 export default function Cart() {
-  const { cartProducts } = useGetCartProductsQuery();
   const [selectedProducts, setSelectedProducts] = useState<CartProduct[]>([]);
+
+  const totalQuantity = useCallback(() => {
+    return selectedProducts.reduce((acc, cur) => acc + (cur.quantity ?? 0), 0);
+  }, [selectedProducts]);
+
+  const totalAmount = useCallback(() => {
+    return selectedProducts.reduce(
+      (acc, cur) => acc + (cur.quantity ?? 0) * cur.product.price,
+      0
+    );
+  }, [selectedProducts]);
 
   return (
     <section className='cart-section'>
@@ -15,14 +24,14 @@ export default function Cart() {
 
       <div className='flex'>
         <section className='cart-left-section'>
-          <CartTable
-            cartProducts={cartProducts}
-            selectProduct={setSelectedProducts}
-          />
+          <CartTable selectProduct={setSelectedProducts} />
         </section>
 
         <section className='cart-right-section'>
-          <CartPayments />
+          <CartPayments
+            totalAmount={totalAmount}
+            totalQuantity={totalQuantity}
+          />
         </section>
       </div>
     </section>
