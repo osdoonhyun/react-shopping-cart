@@ -25,6 +25,19 @@ export const updateProductQuantity = (
 };
 
 /**
+ * 상품을 장바구니에서 제거합니다.
+ * @param {Array} cartProducts - 선택된 상품 목록
+ * @param {number} productId - 삭제할 상품 ID
+ * @returns 업데이트(삭제)된 장바구니 목록
+ */
+export const removeProduct = (
+  cartProducts: CartProduct[],
+  productId: CartProduct['id']
+) => {
+  return cartProducts.filter((product) => product.product.id !== productId);
+};
+
+/**
  * 상품을 ID로 찾아 반환합니다.
  * @param {number} cartProducts - 장바구니 목록
  * @param {number} productId - 찾고자 하는 상품의 ID
