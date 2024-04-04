@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useCartStore from '@/store/cartStore';
 import { CartProduct } from '@/types/cart';
+import { findProductById, updateProductQuantity } from '@/utils/cart';
 
 interface CartProductsProps {
   selectProduct: React.Dispatch<React.SetStateAction<CartProduct[]>>;
@@ -50,7 +51,7 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
   };
 
   const handleIncreaseQuantity = (productId: CartProduct['id']) => {
-    const targetProduct = cart.find(({ product }) => product.id === productId);
+    const targetProduct = findProductById(cart, productId);
 
     if ((targetProduct?.quantity ?? 0) >= MAX_PRODUCT_COUNT) {
       return;
@@ -60,17 +61,13 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
 
     if (targetProduct) {
       selectProduct((prevProducts) =>
-        prevProducts.map((product) =>
-          product.product.id === productId
-            ? { ...product, quantity: (targetProduct.quantity ?? 0) + 1 }
-            : product
-        )
+        updateProductQuantity(prevProducts, targetProduct, productId, 1)
       );
     }
   };
 
   const handleDecreaseQuantity = (productId: CartProduct['id']) => {
-    const targetProduct = cart.find(({ product }) => product.id === productId);
+    const targetProduct = findProductById(cart, productId);
 
     if ((targetProduct?.quantity ?? 0) <= MIN_PRODUCT_COUNT) {
       return;
@@ -80,11 +77,7 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
 
     if (targetProduct) {
       selectProduct((prevProducts) =>
-        prevProducts.map((product) =>
-          product.product.id === productId
-            ? { ...product, quantity: (targetProduct.quantity ?? 0) - 1 }
-            : product
-        )
+        updateProductQuantity(prevProducts, targetProduct, productId, -1)
       );
     }
   };
@@ -147,11 +140,13 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
                     <span className='cart-name'>{name}</span>
                   </div>
                   <div className='flex-col-center justify-end gap-15'>
-                    <img
-                      className='cart-trash-svg'
-                      src='@/assets/svgs/trash.svg'
-                      alt='삭제'
-                    />
+                    <button onClick={handleRemoveProduct}>
+                      <img
+                        className='cart-trash-svg'
+                        src='@/assets/svgs/trash.svg'
+                        alt='삭제'
+                      />
+                    </button>
                     <div className='number-input-container'>
                       <input
                         type='number'
