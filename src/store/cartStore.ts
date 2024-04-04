@@ -1,17 +1,19 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import createSelectors from '@/store/selectors';
 import { CartProduct } from '@/types/cart';
+import { Product } from '@/types/product';
 
-interface cartState {
+interface CartState {
   cart: CartProduct[];
 
-  addToCart: (product: CartProduct) => void; // 상품 추가
+  addToCart: (product: CartProduct) => void;
+  clearCart: (productIds: Set<Product['id']>) => void;
   removeProduct: (productId: CartProduct['id']) => void;
   increaseProductQuantity: (productId: CartProduct['id']) => void;
   decreaseProductQuantity: (productId: CartProduct['id']) => void;
 }
 
-const useCartStoreBase = create<cartState>()((set) => ({
+const useCartStoreBase = create<CartState>()((set) => ({
   cart: [],
 
   addToCart: (product) =>
@@ -29,7 +31,10 @@ const useCartStoreBase = create<cartState>()((set) => ({
         return { cart: [...state.cart, newProduct] };
       }
     }),
-  // TODO: productId === item.product.id이 맞는지 확인해볼 것.(item.id)
+  clearCart: (productIds) =>
+    set((state) => ({
+      cart: state.cart.filter((item) => !productIds.has(item.product.id)),
+    })),
   removeProduct: (productId) =>
     set((state) => ({
       cart: state.cart.filter((item) => item.product.id !== productId),
