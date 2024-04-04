@@ -1,22 +1,35 @@
 import { useState } from 'react';
 import useCartStore from '@/store/cartStore';
+import useAlertDialogStore from '@/store/alertDialogStore';
 import { CartProduct } from '@/types/cart';
-import { findProductById, updateProductQuantity } from '@/utils/cart';
+import { Product } from '@/types/product';
+import {
+  findProductById,
+  removeProduct,
+  updateProductQuantity,
+} from '@/utils/cart';
 
 interface CartProductsProps {
+  selectedProducts: CartProduct[];
   selectProduct: React.Dispatch<React.SetStateAction<CartProduct[]>>;
 }
 
 const MIN_PRODUCT_COUNT = 1;
 const MAX_PRODUCT_COUNT = 20;
 
-export default function CartTable({ selectProduct }: CartProductsProps) {
-  const [selection, setSelection] = useState(new Set());
+export default function CartTable({
+  selectedProducts,
+  selectProduct,
+}: CartProductsProps) {
+  const [selection, setSelection] = useState<Set<number>>(new Set());
 
+  const openAlertDialog = useAlertDialogStore.use.onOpen();
   const cart = useCartStore.use.cart();
 
   const increaseQuantity = useCartStore.use.increaseProductQuantity();
   const decreaseQuantity = useCartStore.use.decreaseProductQuantity();
+  const removeProductStore = useCartStore.use.removeProduct();
+  const clearCart = useCartStore.use.clearCart();
 
   const handleSelectChange = (id: number) => {
     const newSelection = new Set(selection);
@@ -82,9 +95,34 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
     }
   };
 
-  // TODO: 상품 제거 기능 추가하기
-  const handleRemoveProduct = () => {
-    console.log('상품제거');
+  const removeSelectedProduct = (productId: Product['id']) => {
+    removeProductStore(productId);
+    selectProduct(removeProduct(selectedProducts, productId));
+  };
+
+  // 상품 제거 기능 추가하기
+  const handleRemoveProduct = (productId: Product['id']) => {
+    openAlertDialog({
+      title: '알림',
+      message: '상품을 삭제하시겠습니까?',
+      btnText: '삭제하기',
+      onConfirm: () => removeSelectedProduct(productId),
+    });
+  };
+
+  const removeSelectedProducts = () => {
+    clearCart(selection);
+    setSelection(new Set());
+    selectProduct([]);
+  };
+  // 선택된 상품(들) 제거 기능 추가하기
+  const handleRemoveSelectedProduct = () => {
+    openAlertDialog({
+      title: '알림',
+      message: '선택된 모든 상품을 삭제하시겠습니까?',
+      btnText: '삭제하기',
+      onConfirm: removeSelectedProducts,
+    });
   };
 
   return (
@@ -106,7 +144,10 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
               </label>
             </div>
 
-            <button className='delete-button' onClick={handleRemoveProduct}>
+            <button
+              className='delete-button'
+              onClick={handleRemoveSelectedProduct}
+            >
               상품삭제
             </button>
           </>
@@ -140,7 +181,7 @@ export default function CartTable({ selectProduct }: CartProductsProps) {
                     <span className='cart-name'>{name}</span>
                   </div>
                   <div className='flex-col-center justify-end gap-15'>
-                    <button onClick={handleRemoveProduct}>
+                    <button onClick={() => handleRemoveProduct(productId)}>
                       <img
                         className='cart-trash-svg'
                         src='@/assets/svgs/trash.svg'
