@@ -1,3 +1,7 @@
+import { useNavigate } from '@tanstack/react-router';
+import useAlertDialogStore from '@/store/alertDialogStore';
+import useCartStore from '@/store/cartStore';
+
 interface CartPaymentsProps {
   totalQuantity: () => number;
   totalAmount: () => number;
@@ -7,6 +11,23 @@ export default function CartPayments({
   totalQuantity,
   totalAmount,
 }: CartPaymentsProps) {
+  const navigate = useNavigate();
+
+  const openAlertDialog = useAlertDialogStore.use.onOpen();
+  const clearCart = useCartStore.use.clearCart();
+
+  const handleOrderButtonClick = () => {
+    openAlertDialog({
+      title: '주문하기',
+      message: '선택된 상품들을 주문하시겠습니까?',
+      btnText: '확인',
+      onConfirm: () => {
+        clearCart();
+        navigate({ to: '/order' });
+      },
+    });
+  };
+
   return (
     <>
       <div className='cart-right-section__top'>
@@ -19,7 +40,10 @@ export default function CartPayments({
           <span className='highlight-text'>{`${totalAmount()}원`}</span>
         </div>
         <div className='flex-center mt-30 mx-10'>
-          <button className='primary-button flex-center'>
+          <button
+            className='primary-button flex-center'
+            onClick={handleOrderButtonClick}
+          >
             {`주문하기(${totalQuantity()}개)`}
           </button>
         </div>
