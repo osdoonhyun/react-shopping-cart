@@ -1,16 +1,44 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Product } from '@/types/product';
 import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
+import useAlertDialogStore from '@/store/alertDialogStore';
+import useCartStore from '@/store/cartStore';
+import { checkProductExistInCart } from '@/utils/cart';
 
 export default function ProductDetail({ id, name, price, imageUrl }: Product) {
   const navigate = useNavigate();
 
   const { mutate: postCartProduct } = usePostCartProductMutation();
 
-  const handleCartClick = () => {
-    postCartProduct({ product: { id, name, price, imageUrl } });
+  const openAlertDialog = useAlertDialogStore.use.onOpen();
+  const cart = useCartStore.use.cart();
 
-    navigate({ to: '/cart' });
+  const handleCartClick = () => {
+    const isProductExistInCart = checkProductExistInCart(cart, id);
+
+    // 상품 존재 여부에 따라 메시지, 버튼 텍스트, 확인 액션을 설정
+    const dialogConfig = isProductExistInCart
+      ? {
+          message: '이미 장바구니에 있는 상품입니다.',
+          btnText: '확인',
+          onConfirm: () => {},
+        }
+      : {
+          message: '장바구니에 상품이 담겼습니다.',
+          btnText: '바로가기',
+          onConfirm: () => navigate({ to: '/cart' }),
+        };
+
+    postCartProduct(
+      { product: { id, name, price, imageUrl } },
+      {
+        onSuccess: () =>
+          openAlertDialog({
+            title: '알림',
+            ...dialogConfig,
+          }),
+      }
+    );
   };
 
   return (

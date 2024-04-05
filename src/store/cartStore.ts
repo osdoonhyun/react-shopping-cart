@@ -23,7 +23,6 @@ const useCartStoreBase = create<CartState>()((set) => ({
       );
 
       if (isProductExist) {
-        alert('이미 장바구니에 있는 상품입니다.');
         return { cart: [...state.cart] };
       } else {
         const newProduct = { ...product, quantity: 1 };

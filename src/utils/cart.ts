@@ -49,3 +49,16 @@ export const findProductById = (
 ) => {
   return cartProducts.find(({ product }) => product.id === productId);
 };
+
+/**
+ * 장바구니에 해당 상품이 있는지 확인합니다.
+ * @param {CartItem[]} cart - 장바구니 목록
+ * @param {string} productId - 확인하고자 하는 상품의 ID
+ * @returns {boolean} - 상품이 장바구니에 있으면 true, 없으면 false를 반환합니다.
+ */
+export const checkProductExistInCart = (
+  cart: CartProduct[],
+  productId: CartProduct['id']
+) => {
+  return cart.some((item) => item.product.id === productId);
+};
