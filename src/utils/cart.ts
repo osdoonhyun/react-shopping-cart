@@ -30,7 +30,7 @@ export const updateProductQuantity = (
  * @param {number} productId - 삭제할 상품 ID
  * @returns 업데이트(삭제)된 장바구니 목록
  */
-export const removeProduct = (
+export const removeProductById = (
   cartProducts: CartProduct[],
   productId: CartProduct['id']
 ) => {

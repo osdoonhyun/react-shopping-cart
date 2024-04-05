@@ -5,7 +5,7 @@ import { CartProduct } from '@/types/cart';
 import { Product } from '@/types/product';
 import {
   findProductById,
-  removeProduct,
+  removeProductById,
   updateProductQuantity,
 } from '@/utils/cart';
 
@@ -28,8 +28,8 @@ export default function CartTable({
 
   const increaseQuantity = useCartStore.use.increaseProductQuantity();
   const decreaseQuantity = useCartStore.use.decreaseProductQuantity();
-  const removeProductStore = useCartStore.use.removeProduct();
-  const clearCart = useCartStore.use.clearCart();
+  const removeProduct = useCartStore.use.removeProduct();
+  const removeProducts = useCartStore.use.removeProducts();
 
   const handleSelectChange = (id: number) => {
     const newSelection = new Set(selection);
@@ -96,8 +96,8 @@ export default function CartTable({
   };
 
   const removeSelectedProduct = (productId: Product['id']) => {
-    removeProductStore(productId);
-    selectProduct(removeProduct(selectedProducts, productId));
+    removeProduct(productId);
+    selectProduct(removeProductById(selectedProducts, productId));
   };
 
   // 상품 제거 기능 추가하기
@@ -111,7 +111,7 @@ export default function CartTable({
   };
 
   const removeSelectedProducts = () => {
-    clearCart(selection);
+    removeProducts(selection);
     setSelection(new Set());
     selectProduct([]);
   };

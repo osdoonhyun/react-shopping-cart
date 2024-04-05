@@ -24,7 +24,10 @@ export default function Cart() {
 
       <div className='flex'>
         <section className='cart-left-section'>
-          <CartTable selectProduct={setSelectedProducts} />
+          <CartTable
+            selectedProducts={selectedProducts}
+            selectProduct={setSelectedProducts}
+          />
         </section>
 
         <section className='cart-right-section'>

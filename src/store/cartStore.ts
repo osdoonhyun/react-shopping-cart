@@ -7,7 +7,8 @@ interface CartState {
   cart: CartProduct[];
 
   addToCart: (product: CartProduct) => void;
-  clearCart: (productIds: Set<Product['id']>) => void;
+  clearCart: () => void;
+  removeProducts: (productIds: Set<Product['id']>) => void;
   removeProduct: (productId: CartProduct['id']) => void;
   increaseProductQuantity: (productId: CartProduct['id']) => void;
   decreaseProductQuantity: (productId: CartProduct['id']) => void;
@@ -30,7 +31,8 @@ const useCartStoreBase = create<CartState>()((set) => ({
         return { cart: [...state.cart, newProduct] };
       }
     }),
-  clearCart: (productIds) =>
+  clearCart: () => set({ cart: [] }),
+  removeProducts: (productIds) =>
     set((state) => ({
       cart: state.cart.filter((item) => !productIds.has(item.product.id)),
     })),
