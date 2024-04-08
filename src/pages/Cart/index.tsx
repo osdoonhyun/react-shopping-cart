@@ -34,6 +34,7 @@ export default function Cart() {
           <CartPayments
             totalAmount={totalAmount}
             totalQuantity={totalQuantity}
+            selectedProducts={selectedProducts}
           />
         </section>
       </div>
