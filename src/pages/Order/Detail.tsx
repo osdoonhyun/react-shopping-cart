@@ -1,8 +1,13 @@
 import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
-import { Order, OrderDetail } from '@/types/order';
+import { Order } from '@/types/order';
+import { getTotalAmount } from '@/utils/order';
+import OrderListHeader from '@components/Order/OrderListHeader';
+import OrderListItem from '@components/Order/OrderListItem';
 
 export default function Detail({ id }: Pick<Order, 'id'>) {
   const { orderDetails } = useGetOrderDetailQuery({ id });
+
+  const totalAmount = getTotalAmount(orderDetails);
 
   if (!orderDetails) {
     return <>구매하신 내역이 없습니다.</>;
@@ -16,29 +21,9 @@ export default function Detail({ id }: Pick<Order, 'id'>) {
       </header>
 
       <div className='order-list'>
-        <div className='order-list__header'>
-          <span>주문번호: {id}</span>
-          <span>{`상세보기 >`}</span>
-        </div>
+        <OrderListHeader id={id} />
 
-        {orderDetails?.map(
-          ({ id, name, price, imageUrl, quantity }: OrderDetail) => (
-            <div key={id} className='order-list-item'>
-              <div className='flex gap-15 mt-10'>
-                <img className='w-144 h-144' src={imageUrl} alt={name} />
-                <div className='flex-col gap-15'>
-                  <span className='order-name'>{name}</span>
-                  <span className='order-info'>
-                    {price}원 / 수량: {quantity}개
-                  </span>
-                </div>
-              </div>
-              <button className='primary-button-small flex-center self-start'>
-                장바구니
-              </button>
-            </div>
-          )
-        )}
+        <OrderListItem orderList={orderDetails} />
       </div>
 
       <div className='order-detail-container'>
@@ -47,7 +32,7 @@ export default function Detail({ id }: Pick<Order, 'id'>) {
           <hr className='divide-line-thin my-20' />
           <div className='flex justify-between'>
             <span className='highlight-text'>총 결제금액</span>
-            <span className='highlight-text'>325,600원</span>
+            <span className='highlight-text'>{totalAmount}원</span>
           </div>
         </div>
       </div>
