@@ -5,7 +5,7 @@ type DetailProps = {
   id: string;
 };
 
-export default function Detail({ id }: DetailProps) {
+export default function ProductDetailPage({ id }: DetailProps) {
   const { product } = useGetProductDetailQuery(id);
 
   if (!product) {

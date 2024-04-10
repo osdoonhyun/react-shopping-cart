@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import List from '@/pages/Order/List';
+import OrderListPage from '@/pages/Order/OrderListPage';
 
 export const Route = createFileRoute('/orderList')({
-  component: () => <List />,
+  component: () => <OrderListPage />,
 });

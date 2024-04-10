@@ -4,7 +4,7 @@ import CartHeader from '@components/Cart/CartHeader';
 import CartPayments from '@components/Cart/CartPayments';
 import { CartProduct } from '@/types/cart';
 
-export default function Cart() {
+export default function CartPage() {
   const [selectedProducts, setSelectedProducts] = useState<CartProduct[]>([]);
 
   return (

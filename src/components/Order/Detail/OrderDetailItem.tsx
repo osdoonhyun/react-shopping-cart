@@ -2,11 +2,11 @@ import { useNavigate } from '@tanstack/react-router';
 import { OrderDetail } from '@/types/order';
 import { formatToKRW } from '@/utils/formatter';
 
-interface OrderListItemProps {
+interface OrderDetailItemProps {
   orderList: OrderDetail[];
 }
 
-export default function OrderListItem({ orderList }: OrderListItemProps) {
+export default function OrderDetailItem({ orderList }: OrderDetailItemProps) {
   const navigate = useNavigate();
 
   const handleCartClick = () => {

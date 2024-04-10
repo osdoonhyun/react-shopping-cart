@@ -1,11 +1,11 @@
 import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
 import { Order } from '@/types/order';
-import OrderListHeader from '@components/Order/OrderListHeader';
-import OrderListItem from '@components/Order/OrderListItem';
+import OrderListHeader from '@components/Order/Detail/OrderDetailHeader';
+import OrderListItem from '@components/Order/Detail/OrderDetailItem';
 import { formatToKRW } from '@/utils/formatter';
 import { calculateTotalAmount } from '@/utils/order';
 
-export default function Detail({ id }: Pick<Order, 'id'>) {
+export default function OrderDetailPage({ id }: Pick<Order, 'id'>) {
   const { orderDetails } = useGetOrderDetailQuery({ id });
 
   const totalAmount = calculateTotalAmount(orderDetails);

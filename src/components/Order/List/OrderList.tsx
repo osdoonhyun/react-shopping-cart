@@ -1,6 +1,6 @@
 import { Order } from '@/types/order';
-import OrderListItem from './OrderListItem';
-import OrderListHeader from './OrderListHeader';
+import OrderDetailItem from '../Detail/OrderDetailItem';
+import OrderDetailHeader from '../Detail/OrderDetailHeader';
 
 interface OrderListProps {
   orders: Order[];
@@ -11,9 +11,9 @@ export default function OrderList({ orders }: OrderListProps) {
     <>
       {orders.map(({ id, orderDetails }: Order) => (
         <div key={id} className='order-list'>
-          <OrderListHeader id={id} detailButton />
+          <OrderDetailHeader id={id} detailButton />
 
-          <OrderListItem orderList={orderDetails} />
+          <OrderDetailItem orderList={orderDetails} />
         </div>
       ))}
     </>

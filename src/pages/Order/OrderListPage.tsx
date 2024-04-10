@@ -1,7 +1,7 @@
 import { useGetOrdersQuery } from '@/hooks/queries/useGetOrdersQuery';
-import OrderList from '@components/Order/OrderList';
+import OrderList from '@components/Order/List/OrderList';
 
-export default function List() {
+export default function OrderListPage() {
   const { orders } = useGetOrdersQuery();
 
   return (

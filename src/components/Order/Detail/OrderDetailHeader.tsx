@@ -1,14 +1,14 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Order } from '@/types/order';
 
-interface OrderListHeaderProps extends Pick<Order, 'id'> {
+interface OrderDetailHeaderProps extends Pick<Order, 'id'> {
   detailButton?: boolean;
 }
 
-export default function OrderListHeader({
+export default function OrderDetailHeader({
   id,
   detailButton = false,
-}: OrderListHeaderProps) {
+}: OrderDetailHeaderProps) {
   const navigate = useNavigate();
 
   const handleDetailsButtonClick = (orderId: string) => {

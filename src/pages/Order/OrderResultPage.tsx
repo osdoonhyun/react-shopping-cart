@@ -6,7 +6,7 @@ import { calculateTotalAmount } from '@/utils/order';
 import { useNavigate } from '@tanstack/react-router';
 import { Fragment } from 'react/jsx-runtime';
 
-export default function Order() {
+export default function OrderResultPage() {
   const navigate = useNavigate();
 
   const { orders } = useGetOrdersQuery();
@@ -58,6 +58,7 @@ export default function Order() {
         </section>
 
         <section className='order-right-section'>
+          {/* OrderResultPayments */}
           <div className='order-right-section__top'>
             <h3 className='order-title'>결제금액</h3>
           </div>
