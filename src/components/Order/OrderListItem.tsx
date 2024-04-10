@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import { OrderDetail } from '@/types/order';
+import { formatToKRW } from '@/utils/formatter';
 
 interface OrderListItemProps {
   orderList: OrderDetail[];
@@ -21,7 +22,7 @@ export default function OrderListItem({ orderList }: OrderListItemProps) {
             <div className='flex-col gap-15'>
               <span className='order-name'>{name}</span>
               <span className='order-info'>
-                {price}원 / 수량: {quantity}개
+                {`${formatToKRW(price)} / 수량: ${quantity}개`}
               </span>
             </div>
           </div>

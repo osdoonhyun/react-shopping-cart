@@ -2,6 +2,7 @@ import { MouseEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
 import { Product } from '@/types/product';
+import { formatToKRW } from '@/utils/formatter';
 
 interface ProductItemProps extends Product {}
 
@@ -32,7 +33,7 @@ export default function ProductItem({
       <div className='flex justify-between p-5'>
         <div className='product-info'>
           <span className='product-info__name'>{name}</span>
-          <span className='product-info__price'>{price}원</span>
+          <span className='product-info__price'>{formatToKRW(price)}</span>
         </div>
         <button onClick={handleCartClick}>
           <img src='@/assets/svgs/cart.svg' alt='장바구니' />

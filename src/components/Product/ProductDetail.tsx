@@ -4,6 +4,7 @@ import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProduct
 import useAlertDialogStore from '@/store/alertDialogStore';
 import useCartStore from '@/store/cartStore';
 import { checkProductExistInCart } from '@/utils/cart';
+import { formatToKRW } from '@/utils/formatter';
 
 export default function ProductDetail({ id, name, price, imageUrl }: Product) {
   const navigate = useNavigate();
@@ -50,7 +51,9 @@ export default function ProductDetail({ id, name, price, imageUrl }: Product) {
           <hr className='divide-line-gray my-20' />
           <div className='flex justify-between'>
             <span>금액</span>
-            <span className='product-detail-info__price'>{price}원</span>
+            <span className='product-detail-info__price'>
+              {formatToKRW(price)}
+            </span>
           </div>
         </div>
         <button

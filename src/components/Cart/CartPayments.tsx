@@ -4,18 +4,17 @@ import useCartStore from '@/store/cartStore';
 import { usePostOrderProductsMutation } from '@/hooks/mutations/usePostOrderProductsMutation';
 import { CartProduct } from '@/types/cart';
 import { OrderDetail } from '@/types/order';
+import {
+  calculateTotalAmount,
+  calculateTotalQuantity,
+} from '@/utils/calculate';
+import { formatToKRW } from '@/utils/formatter';
 
 interface CartPaymentsProps {
-  totalQuantity: () => number;
-  totalAmount: () => number;
   selectedProducts: CartProduct[];
 }
 
-export default function CartPayments({
-  totalQuantity,
-  totalAmount,
-  selectedProducts,
-}: CartPaymentsProps) {
+export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
   const navigate = useNavigate();
 
   const { mutate: postOrderProducts } = usePostOrderProductsMutation();
@@ -50,6 +49,9 @@ export default function CartPayments({
     });
   };
 
+  const totalAmount = calculateTotalAmount(selectedProducts);
+  const totalQuantity = calculateTotalQuantity(selectedProducts);
+
   return (
     <>
       <div className='cart-right-section__top'>
@@ -59,14 +61,14 @@ export default function CartPayments({
       <div className='cart-right-section__bottom'>
         <div className='flex justify-between p-20 mt-20'>
           <span className='highlight-text'>결제예상금액</span>
-          <span className='highlight-text'>{`${totalAmount()}원`}</span>
+          <span className='highlight-text'>{formatToKRW(totalAmount)}</span>
         </div>
         <div className='flex-center mt-30 mx-10'>
           <button
             className='primary-button flex-center'
             onClick={handleOrderButtonClick}
           >
-            {`주문하기(${totalQuantity()}개)`}
+            {`주문하기(${totalQuantity}개)`}
           </button>
         </div>
       </div>

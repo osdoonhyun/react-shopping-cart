@@ -8,6 +8,7 @@ import {
   removeProductById,
   updateProductQuantity,
 } from '@/utils/cart';
+import { formatToKRW } from '@/utils/formatter';
 
 interface CartProductsProps {
   selectedProducts: CartProduct[];
@@ -210,7 +211,7 @@ export default function CartTable({
                         </button>
                       </div>
                     </div>
-                    <span className='cart-price'>{price}원</span>
+                    <span className='cart-price'>{formatToKRW(price)}</span>
                   </div>
                 </div>
                 <hr className='divide-line-thin mt-10' />

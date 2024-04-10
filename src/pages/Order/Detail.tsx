@@ -1,13 +1,14 @@
 import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
 import { Order } from '@/types/order';
-import { getTotalAmount } from '@/utils/order';
 import OrderListHeader from '@components/Order/OrderListHeader';
 import OrderListItem from '@components/Order/OrderListItem';
+import { formatToKRW } from '@/utils/formatter';
+import { calculateTotalAmount } from '@/utils/order';
 
 export default function Detail({ id }: Pick<Order, 'id'>) {
   const { orderDetails } = useGetOrderDetailQuery({ id });
 
-  const totalAmount = getTotalAmount(orderDetails);
+  const totalAmount = calculateTotalAmount(orderDetails);
 
   if (!orderDetails) {
     return <>구매하신 내역이 없습니다.</>;
@@ -32,7 +33,7 @@ export default function Detail({ id }: Pick<Order, 'id'>) {
           <hr className='divide-line-thin my-20' />
           <div className='flex justify-between'>
             <span className='highlight-text'>총 결제금액</span>
-            <span className='highlight-text'>{totalAmount}원</span>
+            <span className='highlight-text'>{formatToKRW(totalAmount)}</span>
           </div>
         </div>
       </div>

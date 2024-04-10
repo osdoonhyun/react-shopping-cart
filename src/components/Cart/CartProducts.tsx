@@ -1,5 +1,6 @@
-import { CartProduct } from '@/types/cart';
 import { Fragment } from 'react/jsx-runtime';
+import { CartProduct } from '@/types/cart';
+import { formatToKRW } from '@/utils/formatter';
 
 interface CartProductsProps {
   cartProducts: CartProduct[];
@@ -34,7 +35,7 @@ export default function CartProducts({ cartProducts }: CartProductsProps) {
                   <button className='number-input-button'>▼</button>
                 </div>
               </div>
-              <span className='cart-price'>{price}원</span>
+              <span className='cart-price'>{formatToKRW(price)}</span>
             </div>
           </div>
           <hr className='divide-line-thin mt-10' />

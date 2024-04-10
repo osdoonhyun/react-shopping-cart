@@ -1,7 +1,8 @@
 import { useGetOrdersQuery } from '@/hooks/queries/useGetOrdersQuery';
 import useAlertDialog from '@/store/alertDialogStore';
 import { OrderDetail } from '@/types/order';
-import { getTotalAmount } from '@/utils/order';
+import { formatToKRW } from '@/utils/formatter';
+import { calculateTotalAmount } from '@/utils/order';
 import { useNavigate } from '@tanstack/react-router';
 import { Fragment } from 'react/jsx-runtime';
 
@@ -14,7 +15,7 @@ export default function Order() {
 
   const orderProducts = orders?.[0]?.orderDetails;
 
-  const totalAmount = getTotalAmount(orderProducts);
+  const totalAmount = calculateTotalAmount(orderProducts);
 
   const handlePaymentButtonClick = () => {
     openAlertDialog({
@@ -64,14 +65,14 @@ export default function Order() {
           <div className='order-right-section__bottom'>
             <div className='flex justify-between p-20 mt-20'>
               <span className='highlight-text'>총 결제금액</span>
-              <span className='highlight-text'>{totalAmount}원</span>
+              <span className='highlight-text'>{formatToKRW(totalAmount)}</span>
             </div>
             <div className='flex-center mt-30 mx-10'>
               <button
                 className='primary-button flex-center'
                 onClick={handlePaymentButtonClick}
               >
-                {totalAmount}원 결제하기
+                {`${formatToKRW(totalAmount)} 결제하기`}
               </button>
             </div>
           </div>
