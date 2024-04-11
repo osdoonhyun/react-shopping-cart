@@ -1,4 +1,4 @@
-import { useGetOrdersQuery } from '@/hooks/queries/useGetOrdersQuery';
+import { useGetOrderResultQuery } from '@/hooks/queries/useGetOrderResultQuery';
 import useAlertDialog from '@/store/alertDialogStore';
 import { OrderDetail } from '@/types/order';
 import { formatToKRW } from '@/utils/formatter';
@@ -9,13 +9,11 @@ import { Fragment } from 'react/jsx-runtime';
 export default function OrderResultPage() {
   const navigate = useNavigate();
 
-  const { orders } = useGetOrdersQuery();
+  const { orderResult } = useGetOrderResultQuery();
 
   const openAlertDialog = useAlertDialog.use.onOpen();
 
-  const orderProducts = orders?.[0]?.orderDetails;
-
-  const totalAmount = calculateTotalAmount(orderProducts);
+  const totalAmount = calculateTotalAmount(orderResult);
 
   const handlePaymentButtonClick = () => {
     openAlertDialog({
@@ -37,24 +35,22 @@ export default function OrderResultPage() {
 
       <div className='flex'>
         <section className='order-left-section'>
-          <h3 className='order-title'>{`주문 상품(${orderProducts?.length ?? 0}건)`}</h3>
+          <h3 className='order-title'>{`주문 상품(${orderResult?.length ?? 0}건)`}</h3>
           <hr className='divide-line-gray mt-10' />
-          {orderProducts?.map(
-            ({ id, name, imageUrl, quantity }: OrderDetail) => (
-              <Fragment key={id}>
-                <div className='order-container'>
-                  <div className='flex gap-15 mt-10'>
-                    <img className='w-144 h-144' src={imageUrl} alt={name} />
-                    <div className='flex-col gap-15'>
-                      <span className='order-name'>{name}</span>
-                      <span>{`수량: ${quantity}`}</span>
-                    </div>
+          {orderResult?.map(({ id, name, imageUrl, quantity }: OrderDetail) => (
+            <Fragment key={id}>
+              <div className='order-container'>
+                <div className='flex gap-15 mt-10'>
+                  <img className='w-144 h-144' src={imageUrl} alt={name} />
+                  <div className='flex-col gap-15'>
+                    <span className='order-name'>{name}</span>
+                    <span>{`수량: ${quantity}`}</span>
                   </div>
                 </div>
-                <hr className='divide-line-thin mt-10' />
-              </Fragment>
-            )
-          )}
+              </div>
+              <hr className='divide-line-thin mt-10' />
+            </Fragment>
+          ))}
         </section>
 
         <section className='order-right-section'>
