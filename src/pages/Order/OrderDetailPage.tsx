@@ -1,7 +1,8 @@
 import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
 import { Order } from '@/types/order';
-import OrderListHeader from '@components/Order/Detail/OrderDetailHeader';
+import OrderListHeader from '@components/Order/@common/OrderHeader';
 import OrderListItem from '@components/Order/Detail/OrderDetailItem';
+import OrderTitle from '@components/Order/@common/OrderTitle';
 import { formatToKRW } from '@/utils/formatter';
 import { calculateTotalAmount } from '@/utils/order';
 
@@ -16,10 +17,7 @@ export default function OrderDetailPage({ id }: Pick<Order, 'id'>) {
 
   return (
     <section className='order-section'>
-      <header className='flex-col-center mt-20'>
-        <h2 className='order-section__title'>주문내역상세</h2>
-        <hr className='divide-line mt-20' />
-      </header>
+      <OrderTitle title='주문내역상세' />
 
       <div className='order-list'>
         <OrderListHeader id={id} />
