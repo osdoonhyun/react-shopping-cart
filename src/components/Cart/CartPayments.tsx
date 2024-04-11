@@ -17,22 +17,15 @@ interface CartPaymentsProps {
 export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
   const navigate = useNavigate();
 
-  const { mutate: postOrderProducts } = usePostOrderProductsMutation();
-
   const openAlertDialog = useAlertDialogStore.use.onOpen();
   const clearCart = useCartStore.use.clearCart();
 
-  const convertCartProductsToOrderDetails = (
-    cartProducts: CartProduct[]
-  ): OrderDetail[] => {
-    return cartProducts.map((cartProduct) => ({
-      id: cartProduct.product.id,
-      name: cartProduct.product.name,
-      price: cartProduct.product.price,
-      imageUrl: cartProduct.product.imageUrl,
-      quantity: cartProduct.quantity ?? 1,
-    }));
-  };
+  const { mutate: postOrderProducts } = usePostOrderProductsMutation({
+    onSuccess: () => {
+      clearCart();
+      navigate({ to: '/order' });
+    },
+  });
 
   const handleOrderButtonClick = () => {
     openAlertDialog({
@@ -41,10 +34,16 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
       btnText: '확인',
       onConfirm: () => {
         postOrderProducts({
-          orderDetails: convertCartProductsToOrderDetails(selectedProducts),
+          orderDetails: selectedProducts.map(
+            ({ product, quantity }: CartProduct): OrderDetail => ({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              imageUrl: product.imageUrl,
+              quantity: quantity ?? 1,
+            })
+          ),
         });
-        clearCart();
-        navigate({ to: '/order' });
       },
     });
   };
