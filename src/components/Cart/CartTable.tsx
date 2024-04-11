@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import useCartStore from '@/store/cartStore';
 import useAlertDialogStore from '@/store/alertDialogStore';
+import CartToolBar from './CartToolBar';
+import CartProductsHeader from './CartProductsHeader';
+import CartProducts from './CartProducts';
 import { CartProduct } from '@/types/cart';
 import { Product } from '@/types/product';
 import {
@@ -8,7 +11,6 @@ import {
   removeProductById,
   updateProductQuantity,
 } from '@/utils/cart';
-import { formatToKRW } from '@/utils/formatter';
 
 interface CartProductsProps {
   selectedProducts: CartProduct[];
@@ -60,10 +62,6 @@ export default function CartTable({
     }
   };
 
-  const isSelectedAll = () => {
-    return selection.size === cart?.length;
-  };
-
   const handleIncreaseQuantity = (productId: CartProduct['id']) => {
     const targetProduct = findProductById(cart, productId);
 
@@ -71,13 +69,13 @@ export default function CartTable({
       return;
     }
 
-    increaseQuantity(productId);
-
     if (targetProduct) {
       selectProduct((prevProducts) =>
         updateProductQuantity(prevProducts, targetProduct, productId, 1)
       );
     }
+
+    increaseQuantity(productId);
   };
 
   const handleDecreaseQuantity = (productId: CartProduct['id']) => {
@@ -87,13 +85,13 @@ export default function CartTable({
       return;
     }
 
-    decreaseQuantity(productId);
-
     if (targetProduct) {
       selectProduct((prevProducts) =>
         updateProductQuantity(prevProducts, targetProduct, productId, -1)
       );
     }
+
+    decreaseQuantity(productId);
   };
 
   const removeSelectedProduct = (productId: Product['id']) => {
@@ -101,7 +99,6 @@ export default function CartTable({
     selectProduct(removeProductById(selectedProducts, productId));
   };
 
-  // 상품 제거 기능 추가하기
   const handleRemoveProduct = (productId: Product['id']) => {
     openAlertDialog({
       title: '알림',
@@ -116,8 +113,8 @@ export default function CartTable({
     setSelection(new Set());
     selectProduct([]);
   };
-  // 선택된 상품(들) 제거 기능 추가하기
-  const handleRemoveSelectedProduct = () => {
+
+  const handleRemoveSelectedProducts = () => {
     openAlertDialog({
       title: '알림',
       message: '선택된 모든 상품을 삭제하시겠습니까?',
@@ -126,104 +123,30 @@ export default function CartTable({
     });
   };
 
+  const isSelectedAll = () => selection.size === cart.length;
+
+  const hasProducts = cart.length > 0;
+
+  const productCount = cart.length ?? 0;
+
   return (
     <>
-      {/* CartToolBar */}
-      <div className='flex justify-between items-center'>
-        {cart.length > 0 && (
-          <>
-            <div className='checkbox-container'>
-              <input
-                className='checkbox'
-                name='checkbox'
-                type='checkbox'
-                checked={isSelectedAll()}
-                onChange={handleSelectAllChange}
-              />
-              <label className='checkbox-label' htmlFor='checkbox'>
-                {isSelectedAll() ? '선택해제' : '전체선택'}
-              </label>
-            </div>
-
-            <button
-              className='delete-button'
-              onClick={handleRemoveSelectedProduct}
-            >
-              상품삭제
-            </button>
-          </>
-        )}
-      </div>
-
-      {/* CartProductsHeader */}
-      <h3 className='cart-title'>{`든든배송 상품(${cart?.length ?? 0}개)`}</h3>
-      <hr className='divide-line-gray mt-10' />
-
-      {/* CartProdcuts */}
-      {cart.length > 0 ? (
-        <ul>
-          {cart.map(
-            ({
-              id,
-              product: { id: productId, name, price, imageUrl },
-              quantity,
-            }: CartProduct) => (
-              <li key={id}>
-                <div className='cart-container'>
-                  <div className='flex gap-15 mt-10'>
-                    <input
-                      className='checkbox'
-                      name='checkbox'
-                      type='checkbox'
-                      checked={selection.has(productId)}
-                      onChange={() => handleSelectChange(productId)}
-                    />
-                    <img className='w-144 h-144' src={imageUrl} alt={name} />
-                    <span className='cart-name'>{name}</span>
-                  </div>
-                  <div className='flex-col-center justify-end gap-15'>
-                    <button onClick={() => handleRemoveProduct(productId)}>
-                      <img
-                        className='cart-trash-svg'
-                        src='@/assets/svgs/trash.svg'
-                        alt='삭제'
-                      />
-                    </button>
-                    <div className='number-input-container'>
-                      <input
-                        type='number'
-                        className='number-input'
-                        value={quantity}
-                        readOnly
-                      />
-                      <div>
-                        <button
-                          className='number-input-button'
-                          onClick={() => handleIncreaseQuantity(productId)}
-                        >
-                          ▲
-                        </button>
-                        <button
-                          className='number-input-button'
-                          onClick={() => handleDecreaseQuantity(productId)}
-                        >
-                          ▼
-                        </button>
-                      </div>
-                    </div>
-                    <span className='cart-price'>{formatToKRW(price)}</span>
-                  </div>
-                </div>
-                <hr className='divide-line-thin mt-10' />
-              </li>
-            )
-          )}
-        </ul>
-      ) : (
-        <div className='cart-empty'>
-          <p className='cart-empty-message'>장바구니에 담긴 상품이 없습니다.</p>
-        </div>
-      )}
+      <CartToolBar
+        hasProducts={hasProducts}
+        isSelectedAll={isSelectedAll}
+        onSelectAllChange={handleSelectAllChange}
+        onRemoveSelectedProducts={handleRemoveSelectedProducts}
+      />
+      <CartProductsHeader productCount={productCount} />
+      <CartProducts
+        hasProducts={hasProducts}
+        cartProducts={cart}
+        selectionProducts={selection}
+        onToggleSelection={handleSelectChange}
+        onIncreaseQuantity={handleIncreaseQuantity}
+        onDecreaseQuantity={handleDecreaseQuantity}
+        onRemoveProduct={handleRemoveProduct}
+      />
     </>
   );
 }
