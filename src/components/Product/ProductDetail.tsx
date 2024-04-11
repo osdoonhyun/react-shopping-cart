@@ -1,18 +1,24 @@
 import { useNavigate } from '@tanstack/react-router';
-import { Product } from '@/types/product';
-import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
-import useAlertDialogStore from '@/store/alertDialogStore';
 import useCartStore from '@/store/cartStore';
+import useAlertDialogStore from '@/store/alertDialogStore';
+import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
 import { checkProductExistInCart } from '@/utils/cart';
 import { formatToKRW } from '@/utils/formatter';
+import { Product } from '@/types/product';
 
-export default function ProductDetail({ id, name, price, imageUrl }: Product) {
+interface ProductDetailProps {
+  product: Product;
+}
+
+export default function ProductDetail({
+  product: { id, name, price, imageUrl },
+}: ProductDetailProps) {
   const navigate = useNavigate();
-
-  const { mutate: postCartProduct } = usePostCartProductMutation();
 
   const openAlertDialog = useAlertDialogStore.use.onOpen();
   const cart = useCartStore.use.cart();
+
+  const { mutate: postCartProduct } = usePostCartProductMutation();
 
   const handleCartClick = () => {
     const isProductExistInCart = checkProductExistInCart(cart, id);

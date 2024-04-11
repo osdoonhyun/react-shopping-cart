@@ -12,5 +12,5 @@ export default function ProductDetailPage({ id }: DetailProps) {
     return <>상품 준비중 입니다.</>;
   }
 
-  return <ProductDetail {...product} />;
+  return <ProductDetail product={product} />;
 }
