@@ -66,6 +66,7 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
           <button
             className='primary-button flex-center'
             onClick={handleOrderButtonClick}
+            disabled={totalQuantity === 0}
           >
             {`주문하기(${totalQuantity}개)`}
           </button>

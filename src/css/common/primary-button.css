@@ -4,6 +4,14 @@
   color: white;
   width: 100%;
   padding: 20px;
+  cursor: pointer;
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  background: #b2dfdb;
+  color: #ffffff;
+  cursor: not-allowed;
 }
 
 .primary-button-small {
