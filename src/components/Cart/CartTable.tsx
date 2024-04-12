@@ -11,14 +11,12 @@ import {
   removeProductById,
   updateProductQuantity,
 } from '@/utils/cart';
+import { MAX_QUANTITY, MIN_QUANTITY } from '@/constants/cart';
 
 interface CartProductsProps {
   selectedProducts: CartProduct[];
   selectProduct: React.Dispatch<React.SetStateAction<CartProduct[]>>;
 }
-
-const MIN_PRODUCT_COUNT = 1;
-const MAX_PRODUCT_COUNT = 20;
 
 export default function CartTable({
   selectedProducts,
@@ -65,7 +63,7 @@ export default function CartTable({
   const handleIncreaseQuantity = (productId: CartProduct['id']) => {
     const targetProduct = findProductById(cart, productId);
 
-    if ((targetProduct?.quantity ?? 0) >= MAX_PRODUCT_COUNT) {
+    if ((targetProduct?.quantity ?? 0) >= MAX_QUANTITY) {
       return;
     }
 
@@ -81,7 +79,7 @@ export default function CartTable({
   const handleDecreaseQuantity = (productId: CartProduct['id']) => {
     const targetProduct = findProductById(cart, productId);
 
-    if ((targetProduct?.quantity ?? 0) <= MIN_PRODUCT_COUNT) {
+    if ((targetProduct?.quantity ?? 0) <= MIN_QUANTITY) {
       return;
     }
 

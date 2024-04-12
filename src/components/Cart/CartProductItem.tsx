@@ -1,5 +1,7 @@
 import { CartProduct } from '@/types/cart';
 import { formatToKRW } from '@/utils/formatter';
+import trashImg from '@/assets/svgs/trash.svg';
+import { MAX_QUANTITY, MIN_QUANTITY } from '@/constants/cart';
 
 interface CartProductItemProps {
   cartProduct: CartProduct;
@@ -39,11 +41,7 @@ export default function CartProductItem({
         </div>
         <div className='flex-col-center justify-end gap-15'>
           <button onClick={() => onRemoveProduct(productId)}>
-            <img
-              className='cart-trash-svg'
-              src='@/assets/svgs/trash.svg'
-              alt='삭제'
-            />
+            <img className='cart-trash-svg' src={trashImg} alt='삭제' />
           </button>
           <div className='number-input-container'>
             <input
@@ -52,22 +50,28 @@ export default function CartProductItem({
               value={quantity}
               readOnly
             />
-            <div>
-              <button
-                className='number-input-button'
-                onClick={() => onIncreaseQuantity(productId)}
-              >
-                ▲
-              </button>
-              <button
-                className='number-input-button'
-                onClick={() => onDecreaseQuantity(productId)}
-              >
-                ▼
-              </button>
-            </div>
+            {quantity && (
+              <div>
+                <button
+                  className='number-input-button'
+                  onClick={() => onIncreaseQuantity(productId)}
+                  disabled={quantity >= MAX_QUANTITY}
+                >
+                  ▲
+                </button>
+                <button
+                  className='number-input-button'
+                  onClick={() => onDecreaseQuantity(productId)}
+                  disabled={quantity <= MIN_QUANTITY}
+                >
+                  ▼
+                </button>
+              </div>
+            )}
           </div>
-          <span className='cart-price'>{formatToKRW(price)}</span>
+          <span className='cart-price'>
+            {formatToKRW(price * (quantity ?? 1))}
+          </span>
         </div>
       </div>
       <hr className='divide-line-thin mt-10' />
