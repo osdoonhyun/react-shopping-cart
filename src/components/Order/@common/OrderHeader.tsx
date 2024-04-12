@@ -22,7 +22,10 @@ export default function OrderHeader({
     <div className='order-list__header'>
       <span>주문번호: {id}</span>
       {detailButton && (
-        <button onClick={() => handleDetailsButtonClick(String(id))}>
+        <button
+          className='order-detail'
+          onClick={() => handleDetailsButtonClick(String(id))}
+        >
           <span>{`상세보기 >`}</span>
         </button>
       )}

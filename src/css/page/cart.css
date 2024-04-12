@@ -46,8 +46,14 @@
   justify-content: space-between;
 }
 
+.cart-svg {
+  cursor: pointer;
+}
+
 .cart-trash-svg {
   align-self: flex-end;
+
+  cursor: pointer;
 }
 
 .cart-name {

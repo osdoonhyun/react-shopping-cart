@@ -79,6 +79,10 @@
   border: 1px solid #aaaaaa;
 }
 
+.order-detail {
+  cursor: pointer;
+}
+
 .order-detail-container {
   display: flex;
   justify-content: flex-end;

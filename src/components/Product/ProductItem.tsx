@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
 import { Product } from '@/types/product';
 import { formatToKRW } from '@/utils/formatter';
+import cartImg from '@/assets/svgs/cart.svg';
 
 interface ProductItemProps extends Product {}
 
@@ -24,6 +25,7 @@ export default function ProductItem({
     event.stopPropagation();
     postCartProduct({ product: { id, name, price, imageUrl } });
   };
+
   return (
     <li
       className='product-item-box'
@@ -35,8 +37,8 @@ export default function ProductItem({
           <span className='product-info__name'>{name}</span>
           <span className='product-info__price'>{formatToKRW(price)}</span>
         </div>
-        <button onClick={handleCartClick}>
-          <img src='@/assets/svgs/cart.svg' alt='장바구니' />
+        <button className='cart-svg' onClick={handleCartClick}>
+          <img src={cartImg} alt='장바구니' />
         </button>
       </div>
     </li>
