@@ -4,7 +4,7 @@ import useCartStore from '@/store/cartStore';
 
 export const usePostCartProductMutation = () => {
   const queryClient = useQueryClient();
-  const addToCart = useCartStore.use.addToCart();
+  const { addToCart } = useCartStore.use.actions();
 
   const postCartProductMutation = useMutation({
     mutationFn: postCartProduct,

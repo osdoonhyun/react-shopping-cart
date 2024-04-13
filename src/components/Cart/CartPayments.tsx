@@ -18,7 +18,7 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
   const navigate = useNavigate();
 
   const openAlertDialog = useAlertDialogStore.use.onOpen();
-  const clearCart = useCartStore.use.clearCart();
+  const { clearCart } = useCartStore.use.actions();
 
   const { mutate: postOrderProducts } = usePostOrderProductsMutation({
     onSuccess: () => {
