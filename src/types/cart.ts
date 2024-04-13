@@ -5,7 +5,3 @@ export interface CartProduct {
   product: Product;
   quantity?: number;
 }
-
-export interface CartProductWithSelection extends CartProduct {
-  selected: boolean;
-}
