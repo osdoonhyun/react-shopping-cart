@@ -38,9 +38,15 @@ export default function OrderResultPage() {
         <section className='order-left-section'>
           <OrderResultHeader orderCount={orderCount} />
 
-          {orderResult.map((orderDetail: OrderDetail) => (
-            <OrderResultItem orderDetail={orderDetail} />
-          ))}
+          {orderCount > 0 ? (
+            orderResult.map((orderDetail: OrderDetail) => (
+              <OrderResultItem key={orderDetail.id} orderDetail={orderDetail} />
+            ))
+          ) : (
+            <div className='cart-empty'>
+              <p className='cart-empty-message'>결제하신 내역이 없습니다.</p>
+            </div>
+          )}
         </section>
 
         <section className='order-right-section'>

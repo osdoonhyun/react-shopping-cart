@@ -9,7 +9,7 @@ interface OrderListProps {
 export default function OrderList({ orders }: OrderListProps) {
   return (
     <>
-      {orders.map(({ id, orderDetails }: Order) => (
+      {orders?.map(({ id, orderDetails }: Order) => (
         <div key={id} className='order-list'>
           <OrderHeader id={id} detailButton />
 

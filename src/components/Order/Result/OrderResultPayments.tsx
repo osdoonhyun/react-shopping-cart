@@ -24,6 +24,7 @@ export default function OrderResultPayments({
           <button
             className='primary-button flex-center'
             onClick={onPaymentButtonClick}
+            disabled={totalAmount === 0}
           >
             {`${formatToKRW(totalAmount)} 결제하기`}
           </button>
