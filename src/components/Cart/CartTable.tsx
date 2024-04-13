@@ -25,8 +25,8 @@ export default function CartTable({
   const [selection, setSelection] = useState<Set<number>>(new Set());
 
   const openAlertDialog = useAlertDialogStore.use.onOpen();
-  const cart = useCartStore.use.cart();
 
+  const cart = useCartStore.use.cart();
   const increaseQuantity = useCartStore.use.increaseProductQuantity();
   const decreaseQuantity = useCartStore.use.decreaseProductQuantity();
   const removeProduct = useCartStore.use.removeProduct();

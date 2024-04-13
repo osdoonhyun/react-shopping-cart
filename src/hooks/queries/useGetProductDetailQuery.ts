@@ -8,7 +8,5 @@ export const useGetProductDetailQuery = (id: string) => {
     enabled: !!id,
   });
 
-  console.log('PRODUCT DETAIL', id, !!id);
-
   return { product };
 };
