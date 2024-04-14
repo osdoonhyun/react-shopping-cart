@@ -4,8 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetOrderDetailQuery = ({ id }: Pick<Order, 'id'>) => {
   const { data } = useQuery({
-    queryKey: ['orderDetail', id],
+    queryKey: ['orders', 'lists', id],
     queryFn: () => getOrderDetail({ id }),
+    staleTime: 60 * 60 * 24 * 1000,
+    gcTime: 60 * 60 * 24 * 1000,
     enabled: !!id,
   });
 
