@@ -1,11 +1,12 @@
 import ProductDetail from '@components/Product/ProductDetail';
 import { useGetProductDetailQuery } from '@/hooks/queries/useGetProductDetailQuery';
+import { Product } from '@/types/product';
 
-type DetailProps = {
-  id: string;
+type ProductDetailPayload = {
+  id: Product['id'];
 };
 
-export default function ProductDetailPage({ id }: DetailProps) {
+export default function ProductDetailPage({ id }: ProductDetailPayload) {
   const { product } = useGetProductDetailQuery(id);
 
   if (!product) {

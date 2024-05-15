@@ -1,10 +1,7 @@
 import axios from 'axios';
+import { Product } from '@/types/product';
 
-type IdType = {
-  id: string;
-};
-
-export const getProductDetail = async ({ id }: IdType) => {
+export const getProductDetail = async (id: Product['id']) => {
   const response = await axios.get(`/products/${id}`);
 
   return response.data;
