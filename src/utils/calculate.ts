@@ -1,12 +1,11 @@
-import { CartProduct } from '@/types/cart';
-
-export const calculateTotalQuantity = (cart: CartProduct[]) => {
-  return cart.reduce((acc, cur) => acc + (cur.quantity ?? 0), 0);
+export const calculateTotalQuantity = (items: { quantity?: number }[]) => {
+  return items.reduce((acc, item) => acc + (item.quantity ?? 0), 0);
 };
-
-export const calculateTotalAmount = (cart: CartProduct[]) => {
-  return cart.reduce(
-    (acc, cur) => acc + (cur.quantity ?? 0) * cur.product.price,
+export const calculateTotalAmount = (
+  items: { quantity?: number; product: { price: number } }[]
+) => {
+  return items.reduce(
+    (acc, item) => acc + (item.quantity ?? 0) * item.product.price,
     0
   );
 };
