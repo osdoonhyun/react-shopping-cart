@@ -23,7 +23,6 @@ export default function ProductDetail({
   const handleCartClick = () => {
     const isProductExistInCart = checkProductExistInCart(cart, id);
 
-    // 상품 존재 여부에 따라 메시지, 버튼 텍스트, 확인 액션을 설정
     const dialogConfig = isProductExistInCart
       ? {
           message: '이미 장바구니에 있는 상품입니다.',

@@ -67,7 +67,7 @@ export default function CartTable({
 
     if (targetProduct) {
       selectProduct((prevProducts) =>
-        updateProductQuantity(prevProducts, targetProduct, productId, 1)
+        updateProductQuantity(prevProducts, targetProduct, 1)
       );
     }
 
@@ -83,7 +83,7 @@ export default function CartTable({
 
     if (targetProduct) {
       selectProduct((prevProducts) =>
-        updateProductQuantity(prevProducts, targetProduct, productId, -1)
+        updateProductQuantity(prevProducts, targetProduct, -1)
       );
     }
 
