@@ -1,10 +1,11 @@
-import { getOrderDetail } from '@/apis/Order/getOrderDetail';
-import { Order } from '@/types/order';
 import { useQuery } from '@tanstack/react-query';
+import { getOrderDetail } from '@/apis/Order/getOrderDetail';
+import { ORDER_QUERY_KEYS } from '@/constants/queryKey';
+import { Order } from '@/types/order';
 
 export const useGetOrderDetailQuery = ({ id }: Pick<Order, 'id'>) => {
   const { data } = useQuery({
-    queryKey: ['orders', 'lists', id],
+    queryKey: ORDER_QUERY_KEYS.DETAIL(id),
     queryFn: () => getOrderDetail({ id }),
     staleTime: 60 * 60 * 24 * 1000,
     gcTime: 60 * 60 * 24 * 1000,
