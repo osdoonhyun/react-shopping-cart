@@ -13,7 +13,7 @@ export const updateProductQuantity = (
   updateValue: -1 | 1
 ) => {
   return cartProducts.map((product) =>
-    product.product.id === targetProduct.id
+    product.product.id === targetProduct.product.id
       ? {
           ...product,
           quantity: (targetProduct.quantity ?? 0) + updateValue,
