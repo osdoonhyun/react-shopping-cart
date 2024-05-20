@@ -27,8 +27,12 @@ export default function CartTable({
   const openAlertDialog = useAlertDialogStore.use.onOpen();
 
   const cart = useCartStore.use.cart();
-  const { increaseQuantity, decreaseQuantity, removeProduct, removeProducts } =
-    useCartStore.use.actions();
+  // const { increaseQuantity, decreaseQuantity, removeProduct, removeProducts } =
+  // useCartStore.use.actions();
+  const increaseQuantity = useCartStore.use.increaseQuantity();
+  const decreaseQuantity = useCartStore.use.decreaseQuantity();
+  const removeProduct = useCartStore.use.removeProduct();
+  const removeProducts = useCartStore.use.removeProducts();
 
   const handleSelectChange = (id: number) => {
     const newSelection = new Set(selection);
