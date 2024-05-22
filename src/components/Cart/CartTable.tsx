@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import useCartStore from '@/store/cartStore';
 import useAlertDialogStore from '@/store/alertDialogStore';
+import { useDeleteCartProductsMutation } from '@/hooks/mutations/useDeleteCartProductsMutation';
+import { useDeleteCartProductMutation } from '@/hooks/mutations/useDeleteCartProductMutation';
 import CartToolBar from './CartToolBar';
 import CartProductsHeader from './CartProductsHeader';
 import CartProducts from './CartProducts';
@@ -23,24 +25,32 @@ export default function CartTable({
   selectProduct,
 }: CartProductsProps) {
   const [selection, setSelection] = useState<Set<number>>(new Set());
-
   const openAlertDialog = useAlertDialogStore.use.onOpen();
 
   const cart = useCartStore.use.cart();
+
   // const { increaseQuantity, decreaseQuantity, removeProduct, removeProducts } =
   // useCartStore.use.actions();
+
+  // client
   const increaseQuantity = useCartStore.use.increaseQuantity();
   const decreaseQuantity = useCartStore.use.decreaseQuantity();
   const removeProduct = useCartStore.use.removeProduct();
   const removeProducts = useCartStore.use.removeProducts();
 
+  // server
+  const { mutate: deleteCartProducts } = useDeleteCartProductsMutation();
+  const { mutate: deleteCartProduct } = useDeleteCartProductMutation();
+
   const handleSelectChange = (id: number) => {
     const newSelection = new Set(selection);
+
     if (newSelection.has(id)) {
       newSelection.delete(id);
     } else {
       newSelection.add(id);
     }
+
     setSelection(newSelection);
     selectProduct(
       cart.filter((product) => newSelection.has(product.product.id))
@@ -54,6 +64,7 @@ export default function CartTable({
       const allCheckedSelection = new Set(
         cart.map((cartProduct) => cartProduct.product.id)
       );
+
       setSelection(allCheckedSelection);
       selectProduct(cart);
     } else {
@@ -95,6 +106,9 @@ export default function CartTable({
   };
 
   const removeSelectedProduct = (productId: Product['id']) => {
+    // server
+    deleteCartProduct(productId);
+    // client
     removeProduct(productId);
     selectProduct(removeProductById(selectedProducts, productId));
   };
@@ -109,6 +123,9 @@ export default function CartTable({
   };
 
   const removeSelectedProducts = () => {
+    // server
+    deleteCartProducts([...selection]);
+    // client
     removeProducts(selection);
     setSelection(new Set());
     selectProduct([]);
