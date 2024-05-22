@@ -14,7 +14,6 @@
   "dependencies": {
     "@tanstack/react-query": "^5.28.8",
     "@tanstack/react-router": "^1.22.8",
-    "@tanstack/router-devtools": "^1.23.1",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,6 +31,8 @@
     "@storybook/react-vite": "^8.0.4",
     "@storybook/test": "^8.0.4",
     "@tanstack/eslint-plugin-query": "^5.28.6",
+    "@tanstack/react-query-devtools": "^5.37.1",
+    "@tanstack/router-devtools": "^1.33.7",
     "@tanstack/router-vite-plugin": "^1.23.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
