@@ -126,7 +126,7 @@ export default function CartTable({
     // server
     deleteCartProducts([...selection]);
     // client
-    removeProducts(selection);
+    removeProducts([...selection]);
     setSelection(new Set());
     selectProduct([]);
   };

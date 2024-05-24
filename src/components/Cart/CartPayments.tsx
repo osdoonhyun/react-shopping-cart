@@ -18,11 +18,14 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
   const navigate = useNavigate();
 
   const openAlertDialog = useAlertDialogStore.use.onOpen();
-  const clearCart = useCartStore.use.clearCart();
+
+  const removeProducts = useCartStore.use.removeProducts();
 
   const { mutate: postOrderProducts } = usePostOrderProductsMutation({
     onSuccess: () => {
-      clearCart();
+      const selectedIds = selectedProducts.map(({ product }) => product.id);
+
+      removeProducts(selectedIds);
       navigate({ to: '/order' });
     },
   });

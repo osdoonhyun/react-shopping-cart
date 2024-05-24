@@ -1,8 +1,7 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import createSelectors from '@/store/selectors';
 import { CartProduct } from '@/types/cart';
-import { Product } from '@/types/product';
-import { persist } from 'zustand/middleware';
 
 interface CartState {
   cart: CartProduct[];
@@ -10,7 +9,7 @@ interface CartState {
   // actions: {
   addToCart: (product: CartProduct) => void;
   clearCart: () => void;
-  removeProducts: (productIds: Set<Product['id']>) => void;
+  removeProducts: (productIds: CartProduct['id'][]) => void;
   removeProduct: (productId: CartProduct['id']) => void;
   increaseQuantity: (productId: CartProduct['id']) => void;
   decreaseQuantity: (productId: CartProduct['id']) => void;
@@ -40,7 +39,9 @@ const useCartStoreBase = create<CartState>()(
       clearCart: () => set({ cart: [] }),
       removeProducts: (productIds) =>
         set((state) => ({
-          cart: state.cart.filter((item) => !productIds.has(item.product.id)),
+          cart: state.cart.filter(
+            (item) => !productIds.includes(item.product.id)
+          ),
         })),
       removeProduct: (productId) =>
         set((state) => ({
@@ -64,7 +65,7 @@ const useCartStoreBase = create<CartState>()(
         })),
       // },
     }),
-    { name: 'cart-storage' }
+    { name: 'cart-storage', partialize: (state) => ({ cart: state.cart }) }
   )
 );
 
