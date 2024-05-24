@@ -4,6 +4,9 @@ import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProduct
 import { Product } from '@/types/product';
 import { formatToKRW } from '@/utils/formatter';
 import cartImg from '@/assets/svgs/cart.svg';
+import useCartStore from '@/store/cartStore';
+import useAlertDialogStore from '@/store/alertDialogStore';
+import { checkProductExistInCart } from '@/utils/cart';
 
 interface ProductItemProps extends Product {}
 
@@ -15,6 +18,10 @@ export default function ProductItem({
 }: ProductItemProps) {
   const navigate = useNavigate({ from: '/list' });
 
+  const openAlertDialog = useAlertDialogStore.use.onOpen();
+
+  const cart = useCartStore.use.cart();
+
   const { mutate: postCartProduct } = usePostCartProductMutation();
 
   const handleClickProductItem = (productId: string) => {
@@ -23,7 +30,32 @@ export default function ProductItem({
 
   const handleCartClick = (event: MouseEvent) => {
     event.stopPropagation();
-    postCartProduct({ product: { id, name, price, imageUrl } });
+
+    const isProductExistInCart = checkProductExistInCart(cart, id);
+
+    const dialogConfig = isProductExistInCart
+      ? {
+          message:
+            '이미 장바구니에 있는 상품입니다.\n장바구니로 이동하시겠습니까?',
+          btnText: '확인',
+          onConfirm: () => {},
+        }
+      : {
+          message: '장바구니에 상품이 담겼습니다.',
+          btnText: '바로가기',
+          onConfirm: () => navigate({ to: '/cart' }),
+        };
+
+    postCartProduct(
+      { product: { id, name, price, imageUrl } },
+      {
+        onSuccess: () =>
+          openAlertDialog({
+            title: '알림',
+            ...dialogConfig,
+          }),
+      }
+    );
   };
 
   return (
