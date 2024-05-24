@@ -21,7 +21,7 @@ export default function Header() {
             </Link>
           </button>
           <button className='nav-button'>
-            <Link to='/order' className='[&.active]:font-bold nav-button'>
+            <Link to='/orderList' className='[&.active]:font-bold nav-button'>
               주문목록
             </Link>
           </button>
