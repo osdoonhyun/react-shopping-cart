@@ -1,19 +1,23 @@
 import { useNavigate } from '@tanstack/react-router';
-import { useGetOrderResultQuery } from '@/hooks/queries/useGetOrderResultQuery';
+import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
 import useAlertDialog from '@/store/alertDialogStore';
 import OrderTitle from '@components/Order/@common/OrderTitle';
 import OrderResultPayments from '@components/Order/Result/OrderResultPayments';
 import OrderResultHeader from '@components/Order/Result/OrderResultHeader';
 import OrderResultItem from '@components/Order/Result/OrderResultItem';
-import { OrderDetail } from '@/types/order';
+import { Order, OrderDetail } from '@/types/order';
 import { calculateTotalAmount } from '@/utils/order';
 
-export default function OrderResultPage() {
+interface OrderResultPayload {
+  id: Order['id'];
+}
+
+export default function OrderResultPage({ id }: OrderResultPayload) {
   const navigate = useNavigate();
 
   const openAlertDialog = useAlertDialog.use.onOpen();
 
-  const { orderResult } = useGetOrderResultQuery();
+  const { orderDetails: orderResult } = useGetOrderDetailQuery({ id });
 
   const handlePaymentButtonClick = () => {
     openAlertDialog({

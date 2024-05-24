@@ -12,10 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as OrderListImport } from './routes/orderList'
-import { Route as OrderImport } from './routes/order'
 import { Route as ListImport } from './routes/list'
 import { Route as CartImport } from './routes/cart'
 import { Route as IndexImport } from './routes/index'
+import { Route as OrderOrderIdImport } from './routes/order_.$orderId'
 import { Route as OrderListOrderIdImport } from './routes/orderList_.$orderId'
 import { Route as ListProductIdImport } from './routes/list_.$productId'
 
@@ -23,11 +23,6 @@ import { Route as ListProductIdImport } from './routes/list_.$productId'
 
 const OrderListRoute = OrderListImport.update({
   path: '/orderList',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const OrderRoute = OrderImport.update({
-  path: '/order',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -43,6 +38,11 @@ const CartRoute = CartImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrderOrderIdRoute = OrderOrderIdImport.update({
+  path: '/order/$orderId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -72,10 +72,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListImport
       parentRoute: typeof rootRoute
     }
-    '/order': {
-      preLoaderRoute: typeof OrderImport
-      parentRoute: typeof rootRoute
-    }
     '/orderList': {
       preLoaderRoute: typeof OrderListImport
       parentRoute: typeof rootRoute
@@ -88,6 +84,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrderListOrderIdImport
       parentRoute: typeof rootRoute
     }
+    '/order/$orderId': {
+      preLoaderRoute: typeof OrderOrderIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -97,10 +97,10 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   CartRoute,
   ListRoute,
-  OrderRoute,
   OrderListRoute,
   ListProductIdRoute,
   OrderListOrderIdRoute,
+  OrderOrderIdRoute,
 ])
 
 /* prettier-ignore-end */

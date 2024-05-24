@@ -21,14 +21,14 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
 
   const removeProducts = useCartStore.use.removeProducts();
 
-  const { mutate: postOrderProducts } = usePostOrderProductsMutation({
-    onSuccess: () => {
-      const selectedIds = selectedProducts.map(({ product }) => product.id);
+  const moveToOrderPayment = (id: number) => {
+    navigate({
+      to: '/order/$id',
+      params: { id: String(id) },
+    });
+  };
 
-      removeProducts(selectedIds);
-      navigate({ to: '/order' });
-    },
-  });
+  const { mutate: postOrderProducts } = usePostOrderProductsMutation({});
 
   const handleOrderButtonClick = () => {
     openAlertDialog({
@@ -36,17 +36,29 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
       message: '선택된 상품들을 주문하시겠습니까?',
       btnText: '확인',
       onConfirm: () => {
-        postOrderProducts({
-          orderDetails: selectedProducts.map(
-            ({ product, quantity }: CartProduct): OrderDetail => ({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              imageUrl: product.imageUrl,
-              quantity: quantity ?? 1,
-            })
-          ),
-        });
+        postOrderProducts(
+          {
+            orderDetails: selectedProducts.map(
+              ({ product, quantity }: CartProduct): OrderDetail => ({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                imageUrl: product.imageUrl,
+                quantity: quantity ?? 1,
+              })
+            ),
+          },
+          {
+            onSuccess: (newOrder) => {
+              const selectedIds = selectedProducts.map(
+                ({ product }) => product.id
+              );
+
+              removeProducts(selectedIds);
+              moveToOrderPayment(newOrder.id);
+            },
+          }
+        );
       },
     });
   };
