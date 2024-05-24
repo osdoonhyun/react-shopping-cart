@@ -1,6 +1,11 @@
 import { useNavigate } from '@tanstack/react-router';
-import { OrderDetail } from '@/types/order';
+import useCartStore from '@/store/cartStore';
+import useAlertDialogStore from '@/store/alertDialogStore';
+import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
+import { checkProductExistInCart } from '@/utils/cart';
 import { formatToKRW } from '@/utils/formatter';
+import { OrderDetail } from '@/types/order';
+import { Product } from '@/types/product';
 
 interface OrderDetailItemProps {
   orderList: OrderDetail[];
@@ -9,8 +14,37 @@ interface OrderDetailItemProps {
 export default function OrderDetailItem({ orderList }: OrderDetailItemProps) {
   const navigate = useNavigate();
 
-  const handleCartClick = () => {
-    navigate({ to: '/cart' });
+  const cart = useCartStore.use.cart();
+
+  const openAlertDialog = useAlertDialogStore.use.onOpen();
+
+  const { mutate: postCartProduct } = usePostCartProductMutation();
+
+  const handleCartClick = ({ id, name, price, imageUrl }: Product) => {
+    const isProductExistInCart = checkProductExistInCart(cart, id);
+
+    const dialogConfig = isProductExistInCart
+      ? {
+          message: '이미 장바구니에 있는 상품입니다.',
+          btnText: '확인',
+          onConfirm: () => {},
+        }
+      : {
+          message: '장바구니에 상품이 담겼습니다.',
+          btnText: '바로가기',
+          onConfirm: () => navigate({ to: '/cart' }),
+        };
+
+    postCartProduct(
+      { product: { id, name, price, imageUrl } },
+      {
+        onSuccess: () =>
+          openAlertDialog({
+            title: '알림',
+            ...dialogConfig,
+          }),
+      }
+    );
   };
 
   return (
@@ -23,12 +57,12 @@ export default function OrderDetailItem({ orderList }: OrderDetailItemProps) {
               <div className='flex-col gap-15'>
                 <span className='order-name'>{name}</span>
                 <span className='order-info'>
-                  {`${formatToKRW(price)} / 수량: ${quantity}개`}
+                  {`${formatToKRW(price * quantity)} / 수량: ${quantity}개`}
                 </span>
               </div>
             </div>
             <button
-              onClick={handleCartClick}
+              onClick={() => handleCartClick({ id, name, price, imageUrl })}
               className='primary-button-small flex-center self-start'
             >
               장바구니
