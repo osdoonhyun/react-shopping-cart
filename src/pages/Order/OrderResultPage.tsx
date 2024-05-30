@@ -1,4 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
+import { flex } from '@/styled-system/patterns';
+import { css } from '@/styled-system/css';
 import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
 import useAlertDialog from '@/store/alertDialogStore';
 import OrderTitle from '@components/Order/@common/OrderTitle';
@@ -35,25 +37,81 @@ export default function OrderResultPage({ id }: OrderResultPayload) {
   const orderCount = orderResult?.length ?? 0;
 
   return (
-    <section className='order-section'>
+    <section
+      className={flex({
+        flexDirection: 'column',
+        paddingBottom: '60px',
+        gap: '20px',
+      })}
+    >
       <OrderTitle title='주문/결제' />
 
-      <div className='flex'>
-        <section className='order-left-section'>
+      <div
+        className={flex({
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          gap: '50px',
+        })}
+      >
+        <section
+          className={flex({
+            flexDirection: 'column',
+            gap: '20px',
+            padding: '0',
+            flexGrow: 1,
+          })}
+        >
           <OrderResultHeader orderCount={orderCount} />
 
-          {orderCount > 0 ? (
-            orderResult.map((orderDetail: OrderDetail) => (
-              <OrderResultItem key={orderDetail.id} orderDetail={orderDetail} />
-            ))
-          ) : (
-            <div className='cart-empty'>
-              <p className='cart-empty-message'>결제하신 내역이 없습니다.</p>
-            </div>
-          )}
+          <ul
+            className={flex({
+              flexDirection: 'column',
+              gap: '20px',
+            })}
+          >
+            {orderCount > 0 ? (
+              orderResult.map((orderDetail: OrderDetail) => (
+                <OrderResultItem
+                  key={orderDetail.id}
+                  orderDetail={orderDetail}
+                />
+              ))
+            ) : (
+              <div className='cart-empty'>
+                <p className='cart-empty-message'>결제하신 내역이 없습니다.</p>
+              </div>
+            )}
+          </ul>
         </section>
 
-        <section className='order-right-section'>
+        <section
+          className={css({
+            position: {
+              base: 'fixed',
+              lg: 'static',
+            },
+            bottom: {
+              base: '0',
+              lg: 'auto',
+            },
+            left: {
+              base: '0',
+              lg: 'auto',
+            },
+            width: {
+              base: '100%',
+              lg: '280px',
+            },
+            minWidth: '375px',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '10px',
+            border: '1px solid #d1d1d1',
+            borderRadius: '4px',
+            backgroundColor: 'white',
+          })}
+        >
           <OrderResultPayments
             totalAmount={totalAmount}
             onPaymentButtonClick={handlePaymentButtonClick}

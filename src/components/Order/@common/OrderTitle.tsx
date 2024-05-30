@@ -1,12 +1,28 @@
+import Divider from '@components/common/Divider/Divider';
+import Title from '@components/common/Title/Title';
+
 interface OrderTitleProps {
   title: string;
 }
 
 export default function OrderTitle({ title }: OrderTitleProps) {
   return (
-    <header className='flex-col-center mt-20'>
-      <h2 className='order-section__title'>{title}</h2>
-      <hr className='divide-line mt-20' />
+    <header>
+      <Title
+        as='h2'
+        variant='title'
+        css={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+          padding: '20px',
+        }}
+      >
+        {title}
+      </Title>
+
+      <Divider color='gray' />
     </header>
   );
 }

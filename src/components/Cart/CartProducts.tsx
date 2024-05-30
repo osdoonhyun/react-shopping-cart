@@ -1,5 +1,7 @@
-import { CartProduct } from '@/types/cart';
+import { flex } from '@/styled-system/patterns';
+import { css } from '@/styled-system/css';
 import CartProductItem from './CartProductItem';
+import { CartProduct } from '@/types/cart';
 
 interface CartProductsProps {
   hasProducts: boolean;
@@ -23,7 +25,12 @@ export default function CartProducts({
   return (
     <>
       {hasProducts ? (
-        <ul>
+        <ul
+          className={flex({
+            flexDirection: 'column',
+            gap: '20px',
+          })}
+        >
           {cartProducts.map((cartProduct) => (
             <CartProductItem
               key={cartProduct.id}
@@ -37,10 +44,21 @@ export default function CartProducts({
           ))}
         </ul>
       ) : (
-        <div className='cart-empty'>
-          <p className='cart-empty-message'>장바구니에 담긴 상품이 없습니다.</p>
+        <div className={empty}>
+          <p className={emptyMessage}>장바구니에 담긴 상품이 없습니다.</p>
         </div>
       )}
     </>
   );
 }
+
+const empty = flex({
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '200px',
+});
+
+const emptyMessage = css({
+  fontSize: '20px',
+  color: '#555',
+});

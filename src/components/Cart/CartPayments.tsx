@@ -1,7 +1,12 @@
 import { useNavigate } from '@tanstack/react-router';
+import { css } from '@/styled-system/css';
+import { flex } from '@/styled-system/patterns';
 import useAlertDialogStore from '@/store/alertDialogStore';
 import useCartStore from '@/store/cartStore';
+import useOrderStore from '@/store/orderStore';
 import { usePostOrderProductsMutation } from '@/hooks/mutations/usePostOrderProductsMutation';
+import Divider from '@components/common/Divider/Divider';
+import Title from '@components/common/Title/Title';
 import { CartProduct } from '@/types/cart';
 import { OrderDetail } from '@/types/order';
 import {
@@ -21,7 +26,9 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
 
   const removeProducts = useCartStore.use.removeProducts();
 
-  const moveToOrderPayment = (id: number) => {
+  const addOrder = useOrderStore.use.addOrder();
+
+  const moveToOrderResult = (id: number) => {
     navigate({
       to: '/order/$id',
       params: { id: String(id) },
@@ -50,12 +57,17 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
           },
           {
             onSuccess: (newOrder) => {
+              // 1. 선택된 상품들의 id 추출
               const selectedIds = selectedProducts.map(
                 ({ product }) => product.id
               );
 
+              // 2. 새로 생성된 주문 주문 목록에 추가
+              addOrder(newOrder);
+              // 3. 선택한 상품들 장바구니에서 삭제
               removeProducts(selectedIds);
-              moveToOrderPayment(newOrder.id);
+              // 4. OrderResult 페이지로 이동
+              moveToOrderResult(newOrder.id);
             },
           }
         );
@@ -68,25 +80,60 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
 
   return (
     <>
-      <div className='cart-right-section__top'>
-        <h3 className='cart-title'>결제예상금액</h3>
-      </div>
-      <hr className='divide-line-thin' />
-      <div className='cart-right-section__bottom'>
-        <div className='flex justify-between p-20 mt-20'>
+      <div
+        className={flex({
+          flexDirection: 'column',
+          padding: '20px',
+          gap: '20px',
+        })}
+      >
+        <div
+          className={flex({
+            display: {
+              base: 'none',
+              lg: 'block',
+            },
+            flexDirection: 'column',
+          })}
+        >
+          <Title as='h3' variant='subtitle'>
+            결제예상금액
+          </Title>
+          <Divider color='lightGray' />
+        </div>
+
+        <div
+          className={flex({
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          })}
+        >
           <span className='highlight-text'>결제예상금액</span>
           <span className='highlight-text'>{formatToKRW(totalAmount)}</span>
         </div>
-        <div className='flex-center mt-30 mx-10'>
-          <button
-            className='primary-button flex-center'
-            onClick={handleOrderButtonClick}
-            disabled={totalQuantity === 0}
-          >
-            {`주문하기(${totalQuantity}개)`}
-          </button>
-        </div>
       </div>
+
+      <button
+        className={css({
+          width: '100%',
+          height: 'auto',
+          textAlign: 'center',
+          padding: '10px 16px',
+          fontSize: 'subtitle',
+          cursor: 'pointer',
+          transition: 'background-color 0.2s',
+          backgroundColor: 'blue.400',
+          color: 'white',
+          _disabled: {
+            opacity: 0.6,
+            cursor: 'not-allowed',
+          },
+        })}
+        onClick={handleOrderButtonClick}
+        disabled={totalQuantity === 0}
+      >
+        {`주문하기(${totalQuantity}개)`}
+      </button>
     </>
   );
 }

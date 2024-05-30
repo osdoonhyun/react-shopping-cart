@@ -1,5 +1,8 @@
 import { MouseEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { flex } from '@/styled-system/patterns';
+import { css } from '@/styled-system/css';
+import Divider from '@components/common/Divider/Divider';
 import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
 import { Product } from '@/types/product';
 import { formatToKRW } from '@/utils/formatter';
@@ -38,7 +41,7 @@ export default function ProductItem({
           message:
             '이미 장바구니에 있는 상품입니다.\n장바구니로 이동하시겠습니까?',
           btnText: '확인',
-          onConfirm: () => {},
+          onConfirm: () => navigate({ to: '/cart' }),
         }
       : {
           message: '장바구니에 상품이 담겼습니다.',
@@ -59,20 +62,61 @@ export default function ProductItem({
   };
 
   return (
-    <li
-      className='product-item-box'
+    <article
+      className={flex({
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: 'space-between',
+        marginTop: '10px',
+        outline: '1px solid #ddd',
+        borderRadius: '4px',
+      })}
       onClick={() => handleClickProductItem(String(id))}
     >
-      <img src={imageUrl} alt={name} />
-      <div className='flex justify-between p-5'>
-        <div className='product-info'>
-          <span className='product-info__name'>{name}</span>
-          <span className='product-info__price'>{formatToKRW(price)}</span>
-        </div>
-        <button className='cart-svg' onClick={handleCartClick}>
+      <figure>
+        <img src={imageUrl} alt={name} />
+        {/* <div
+          className={css({
+            width: '100%',
+            height: '48px',
+            textAlign: 'left',
+            marginTop: '10px',
+            paddingX: '6px',
+            overflow: 'hidden',
+          })}
+        > */}
+        <figcaption
+          className={css({
+            width: '100%',
+            height: '48px',
+            textAlign: 'left',
+            marginTop: '10px',
+            paddingX: '6px',
+            overflow: 'hidden',
+          })}
+        >
+          {name}
+        </figcaption>
+        {/* </div> */}
+      </figure>
+
+      {/* Divider */}
+      <Divider color='lightGray' />
+
+      <div
+        className={flex({
+          width: '100%',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          padding: '0 10px 6px',
+        })}
+      >
+        <span>{formatToKRW(price)}</span>
+        {/* IconButton */}
+        <button onClick={handleCartClick}>
           <img src={cartImg} alt='장바구니' />
         </button>
       </div>
-    </li>
+    </article>
   );
 }

@@ -1,4 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
+import { css } from '@/styled-system/css';
+import { flex } from '@/styled-system/patterns';
 import useCartStore from '@/store/cartStore';
 import useAlertDialogStore from '@/store/alertDialogStore';
 import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
@@ -51,19 +53,71 @@ export default function OrderDetailItem({ orderList }: OrderDetailItemProps) {
     <>
       {orderList?.map(
         ({ id, name, price, imageUrl, quantity }: OrderDetail) => (
-          <div key={id} className='order-list-item'>
-            <div className='flex gap-15 mt-10'>
-              <img className='w-144 h-144' src={imageUrl} alt={name} />
-              <div className='flex-col gap-15'>
-                <span className='order-name'>{name}</span>
-                <span className='order-info'>
+          <div key={id} className={orderListItem}>
+            <div
+              className={flex({
+                gap: '15px',
+                marginTop: '10px',
+              })}
+            >
+              <img
+                className={css({
+                  width: {
+                    base: '80px',
+                    sm: '120px',
+                  },
+                  height: {
+                    base: '80px',
+                    sm: '120px',
+                  },
+                  flex: '1 0 120px',
+                  objectFit: 'cover',
+                  borderRadius: '4px',
+                })}
+                src={imageUrl}
+                alt={name}
+              />
+              <div
+                className={flex({
+                  flexDirection: 'column',
+                })}
+              >
+                <span
+                  className={css({
+                    fontSize: {
+                      base: '14px',
+                      sm: '18px',
+                    },
+                  })}
+                >
+                  {name}
+                </span>
+                <span
+                  className={css({
+                    fontSize: {
+                      base: '14px',
+                      sm: '18px',
+                    },
+                    color: '#888888',
+                  })}
+                >
                   {`${formatToKRW(price * quantity)} / 수량: ${quantity}개`}
                 </span>
               </div>
             </div>
             <button
               onClick={() => handleCartClick({ id, name, price, imageUrl })}
-              className='primary-button-small flex-center self-start'
+              className={css({
+                backgroundColor: 'blue.400',
+                fontSize: '18px',
+                color: 'white',
+                padding: '8px 18px',
+                cursor: 'pointer',
+                alignSelf: 'self-start',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              })}
             >
               장바구니
             </button>
@@ -73,3 +127,12 @@ export default function OrderDetailItem({ orderList }: OrderDetailItemProps) {
     </>
   );
 }
+
+const orderListItem = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  padding: '20px 40px',
+  border: '1px solid #aaaaaa',
+});

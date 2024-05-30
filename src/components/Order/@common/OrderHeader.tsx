@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router';
+import { css } from '@/styled-system/css';
 import { Order } from '@/types/order';
 
 interface OrderHeaderProps extends Pick<Order, 'id'> {
@@ -19,11 +20,11 @@ export default function OrderHeader({
   };
 
   return (
-    <div className='order-list__header'>
+    <div className={orderListHeader}>
       <span>주문번호 : {id}</span>
       {detailButton && (
         <button
-          className='order-detail'
+          className={orderDetail}
           onClick={() => handleDetailsButtonClick(String(id))}
         >
           <span>{`상세보기 >`}</span>
@@ -32,3 +33,20 @@ export default function OrderHeader({
     </div>
   );
 }
+
+const orderListHeader = css({
+  width: '100%',
+  padding: '30px 50px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginTop: '50px',
+  fontSize: '20px',
+  background: '#f6f6f6',
+  border: '1px solid #aaaaaa',
+  borderBottom: 'none',
+});
+
+const orderDetail = css({
+  cursor: 'pointer',
+});

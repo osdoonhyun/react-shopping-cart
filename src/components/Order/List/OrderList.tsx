@@ -1,4 +1,6 @@
 import { Order } from '@/types/order';
+import { flex } from '@/styled-system/patterns';
+import { css } from '@/styled-system/css';
 import OrderDetailItem from '../Detail/OrderDetailItem';
 import OrderHeader from '../@common/OrderHeader';
 
@@ -13,7 +15,7 @@ export default function OrderList({ orders }: OrderListProps) {
       {isExistingOrders ? (
         <>
           {orders?.map(({ id, orderDetails }: Order) => (
-            <div key={id} className='order-list'>
+            <div key={id} className={flex({ flexDirection: 'column' })}>
               <OrderHeader id={id} detailButton />
 
               <OrderDetailItem orderList={orderDetails} />
@@ -21,10 +23,20 @@ export default function OrderList({ orders }: OrderListProps) {
           ))}
         </>
       ) : (
-        <div className='order-empty'>
-          <p className='order-empty-message'>주문 내역이 없습니다.</p>
+        <div className={empty}>
+          <p className={emptyMessage}>주문 내역이 없습니다.</p>
         </div>
       )}
     </>
   );
 }
+
+const empty = flex({
+  marginTop: '200px',
+  justifyContent: 'center',
+});
+
+const emptyMessage = css({
+  fontSize: '20px',
+  color: '#555',
+});
