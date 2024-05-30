@@ -1,15 +1,17 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
+import Container from '@/layout/Container';
 import Header from '@/layout/Header';
-import AlertDialogContainer from '@components/common/AlertDialogContainer';
+import Body from '@/layout/Body';
+import AlertDialogContainer from '@components/common/AlertDialog/AlertDialogContainer';
 
 export const Route = createRootRoute({
   component: () => (
-    <>
+    <Container>
       <Header />
-      <main>
+      <Body>
         <Outlet />
-      </main>
+      </Body>
       <AlertDialogContainer />
-    </>
+    </Container>
   ),
 });
