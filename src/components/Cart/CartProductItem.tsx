@@ -1,5 +1,9 @@
 import { flex } from '@/styled-system/patterns';
 import { css } from '@/styled-system/css';
+import QuantityCounter from '@components/common/QuantityCounter/QuantityCounter';
+import IconButton from '@components/common/Button/IconButton';
+import CheckBox from '@components/common/CheckBox/CheckBox';
+import Image from '@components/common/Image/Image';
 import { CartProduct } from '@/types/cart';
 import { formatToKRW } from '@/utils/formatter';
 import trashImg from '@/assets/svgs/trash.svg';
@@ -28,229 +32,145 @@ export default function CartProductItem({
   } = cartProduct;
 
   return (
-    <li className={flex({ gap: '10px' })}>
-      <div
-        className={flex({
-          justifyContent: 'row',
-          alignItems: 'center',
-          gap: '10px',
-        })}
-      >
-        <input
-          className={css({
-            appearance: 'none',
-            width: '18px',
-            height: '18px',
-            border: '1px solid #ccc',
-            outline: 'none',
-            cursor: 'pointer',
-            transition: 'border-color 0.2s ease-in-out',
-
-            '&:checked': {
-              borderColor: 'blue.500',
-              backgroundColor: 'blue.500',
-            },
-
-            '& + span': {
-              marginLeft: '8px',
-            },
-
-            '&:checked::after': {
-              content: '""',
-              display: 'block',
-              width: '5px',
-              height: '10px',
-              border: 'solid white',
-              borderWidth: '0 2px 2px 0',
-              transform: 'rotate(45deg)',
-              marginLeft: '6px',
-              marginTop: '2px',
-            },
-          })}
-          name='checkbox'
-          type='checkbox'
-          checked={isSelected}
+    <li className={cartProductItemContainer}>
+      <section className={cartProductItemLeftSection}>
+        <CheckBox
+          colorScheme='blue'
+          isChecked={isSelected}
           onChange={() => onToggleSelection(productId)}
         />
-        <img
+        <Image
           className={css({
-            width: {
-              base: '80px',
-              sm: '120px',
-            },
-            height: {
-              base: '80px',
-              sm: '120px',
-            },
-            flex: '1 0 120px !important',
             objectFit: 'cover',
-            borderRadius: '4px',
-            border: 'none',
+            borderRadius: '2px',
           })}
+          size='sm'
+          variant='outline'
           src={imageUrl}
           alt={name}
         />
-      </div>
+      </section>
 
-      <div
-        className={flex({
-          position: 'relative',
-          flex: '1 0 0',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          padding: {
-            base: '4px',
-            sm: '10px',
-          },
-        })}
-      >
-        <span
-          className={css({
-            fontSize: {
-              base: '14px',
-              sm: '18px',
-            },
-            paddingRight: '12px',
-          })}
-        >
-          {name}
-        </span>
-        <div
-          className={flex({
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          })}
-        >
-          <div
-            className={flex({
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            })}
-          >
-            <button onClick={() => onRemoveProduct(productId)}>
-              <img className='cart-trash-svg' src={trashImg} alt='삭제' />
-            </button>
+      <section className={cartProductItemRightSection}>
+        <span className={cartProductItemName}>{name}</span>
+        <div className={cartProductItemActionContainer}>
+          <div className={trashIconButtonContainer}>
+            <IconButton
+              variant='ghost'
+              colorScheme='gray'
+              aria-label='remove items'
+              onClick={() => onRemoveProduct(productId)}
+              icon={<Image variant='icon' src={trashImg} alt='삭제' />}
+            />
           </div>
 
-          <div
-            className={flex({
-              position: {
-                base: 'absolute',
-                sm: 'static',
-              },
-              bottom: {
-                base: '4px',
-                sm: 'unset',
-              },
-              left: {
-                base: '0',
-                sm: 'unset',
-              },
-              width: '100%',
-              paddingLeft: {
-                base: '4px',
-                sm: '0',
-              },
-              flexDirection: {
-                base: 'row',
-                sm: 'column',
-              },
-              alignItems: 'flex-end',
-              justifyContent: {
-                base: 'space-between',
-                sm: 'flex-start',
-              },
-              gap: '10px',
-            })}
-          >
-            <div
-              className={flex({
-                gap: '2px',
-                justifyContent: {
-                  base: 'flex-start',
-                  sm: 'flex-end',
-                },
-                alignItems: 'center',
-                width: {
-                  base: '150px',
-                  sm: '100%',
-                },
-                overflow: {
-                  base: 'hidden',
-                  sm: 'visible',
-                },
-              })}
-            >
-              <span
-                className={css({
-                  fontSize: {
-                    base: '14px',
-                    sm: '18px',
-                  },
-                })}
-              >
+          <div className={cartProductItemPriceAndQuantityCounterContainer}>
+            <div className={cartProductItemPriceContainer}>
+              <span className={cartProductItemPrice}>
                 {formatToKRW(price * (quantity ?? 1))}
               </span>
             </div>
-
-            {/* COUNTER */}
-            {quantity && (
-              <div
-                className={flex({
-                  width: '100px',
-                  height: '30px',
-                })}
-              >
-                <button
-                  className={flex({
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    color: '#aaa',
-                    border: '1px solid #d1d1d1',
-                    padding: '6px',
-                    width: '100%',
-                  })}
-                  onClick={() => onDecreaseQuantity(productId)}
-                  disabled={quantity <= MIN_QUANTITY}
-                >
-                  -
-                </button>
-                <input
-                  type='number'
-                  className={flex({
-                    width: '40px',
-                    height: '30px',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    border: '1px solid #d1d1d1',
-                    borderLeft: 'none',
-                    borderRight: 'none',
-                    padding: 0,
-                    textAlign: 'center',
-                    color: 'gray.500',
-                  })}
-                  value={quantity}
-                  readOnly
-                />
-                <button
-                  className={flex({
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    color: '#aaa',
-                    border: '1px solid #d1d1d1',
-                    padding: '6px',
-                  })}
-                  onClick={() => onIncreaseQuantity(productId)}
-                  disabled={quantity >= MAX_QUANTITY}
-                >
-                  +
-                </button>
-              </div>
-            )}
+            <QuantityCounter
+              min={MIN_QUANTITY}
+              max={MAX_QUANTITY}
+              quantity={quantity}
+              onIncrement={() => onIncreaseQuantity(productId)}
+              onDecrement={() => onDecreaseQuantity(productId)}
+            />
           </div>
         </div>
-      </div>
+      </section>
     </li>
   );
 }
+
+const cartProductItemContainer = flex({ gap: '10px' });
+
+const cartProductItemLeftSection = flex({
+  justifyContent: 'row',
+  alignItems: 'center',
+  gap: '10px',
+});
+
+const cartProductItemRightSection = flex({
+  position: 'relative',
+  flex: '1 0 0',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  padding: {
+    base: '4px',
+    sm: '10px',
+  },
+});
+
+const cartProductItemName = css({
+  fontSize: {
+    base: '14px',
+    sm: '18px',
+  },
+  paddingRight: '12px',
+});
+
+const cartProductItemActionContainer = flex({
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+});
+
+const trashIconButtonContainer = flex({
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+});
+
+const cartProductItemPriceAndQuantityCounterContainer = flex({
+  position: {
+    base: 'absolute',
+    sm: 'static',
+  },
+  bottom: {
+    base: '4px',
+    sm: 'unset',
+  },
+  left: {
+    base: '0',
+    sm: 'unset',
+  },
+  width: '100%',
+  paddingLeft: {
+    base: '4px',
+    sm: '0',
+  },
+  flexDirection: {
+    base: 'row',
+    sm: 'column',
+  },
+  alignItems: 'flex-end',
+  justifyContent: {
+    base: 'space-between',
+    sm: 'flex-start',
+  },
+  gap: '10px',
+});
+
+const cartProductItemPriceContainer = flex({
+  gap: '2px',
+  justifyContent: {
+    base: 'flex-start',
+    sm: 'flex-end',
+  },
+  alignItems: 'center',
+  width: {
+    base: '150px',
+    sm: '100%',
+  },
+  overflow: {
+    base: 'hidden',
+    sm: 'visible',
+  },
+});
+
+const cartProductItemPrice = css({
+  fontSize: {
+    base: '14px',
+    sm: '18px',
+  },
+});

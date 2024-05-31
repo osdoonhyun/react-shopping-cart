@@ -1,6 +1,8 @@
 import { useNavigate } from '@tanstack/react-router';
 import { flex, grid } from '@/styled-system/patterns';
 import { css } from '@/styled-system/css';
+import Button from '@components/common/Button/Button';
+import Image from '@components/common/Image/Image';
 import useCartStore from '@/store/cartStore';
 import useAlertDialogStore from '@/store/alertDialogStore';
 import Divider from '@components/common/Divider/Divider';
@@ -52,109 +54,92 @@ export default function ProductDetail({
   };
 
   return (
-    <article
-      className={grid({
-        gridTemplateColumns: {
-          base: 'repeat(1, minmax(0, 1fr))',
-          md: 'repeat(2, minmax(0, 1fr))',
-        },
-        gap: {
-          base: '20px',
-          md: '100px',
-        },
-      })}
-    >
-      <figure
-        className={css({
-          outline: '1px solid #ddd',
-          borderRadius: '4px',
-        })}
-      >
-        <img
-          className={css({
-            width: '100%',
-          })}
+    <article className={productDetailContainer}>
+      <figure className={productDetailFigure}>
+        <Image
+          size='full'
+          className={css({ objectFit: 'none' })}
           src={imageUrl}
           alt={name}
         />
       </figure>
 
-      <section
-        className={flex({
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '4px',
-        })}
-      >
-        <header
-          className={flex({
-            flexDirection: 'column',
-            gap: '10px',
-          })}
-        >
-          <span
-            className={css({
-              fontSize: 'xl',
-              fontWeight: 'semibold',
-            })}
-          >
-            {name}
-          </span>
-          {/* Divder */}
+      <section className={productDetailContentContainer}>
+        <header className={productDetailHeader}>
+          <span className={productDetailName}>{name}</span>
+
           <Divider color='lightGray' />
         </header>
 
-        <div
-          className={flex({
-            flexDirection: 'column',
-            gap: '20px',
-          })}
-        >
-          <div
-            className={flex({
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: '40px',
-            })}
-          >
-            <span
-              className={css({
-                fontSize: 'lg',
-                fontWeight: '500',
-              })}
-            >
-              금액
-            </span>
-            <span
-              className={css({
-                fontSize: 'lg',
-                fontWeight: '600',
-              })}
-            >
-              {formatToKRW(price)}
-            </span>
+        <div className={productDetailContent}>
+          <div className={productDetailPriceContainer}>
+            <span className={productDetailPriceLabel}>금액</span>
+            <span className={productDetailPrice}>{formatToKRW(price)}</span>
           </div>
 
-          <button
-            onClick={handleCartClick}
-            className={css({
-              width: 'calc(100%)',
-              backgroundColor: 'blue.400',
-              height: 'auto',
-              color: 'white',
-              textAlign: 'center',
-              padding: '10px 16px',
-              borderRadius: 'md',
-              fontSize: 'large',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s',
-            })}
-          >
+          <Button onClick={handleCartClick} className={cartButton}>
             장바구니
-          </button>
+          </Button>
         </div>
       </section>
     </article>
   );
 }
+
+const productDetailContainer = grid({
+  gridTemplateColumns: {
+    base: 'repeat(1, minmax(0, 1fr))',
+    md: 'repeat(2, minmax(0, 1fr))',
+  },
+  gap: {
+    base: '20px',
+    md: '100px',
+  },
+});
+
+const productDetailFigure = css({
+  outline: '1px solid #ddd',
+  borderRadius: '4px',
+});
+
+const productDetailContentContainer = flex({
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  padding: '4px',
+});
+
+const productDetailHeader = flex({
+  flexDirection: 'column',
+  gap: '10px',
+});
+
+const productDetailName = css({
+  fontSize: 'xl',
+  fontWeight: 'semibold',
+});
+
+const productDetailContent = flex({
+  flexDirection: 'column',
+  gap: '20px',
+});
+
+const productDetailPriceContainer = flex({
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: '40px',
+});
+
+const productDetailPriceLabel = css({
+  fontSize: 'lg',
+  fontWeight: '500',
+});
+
+const productDetailPrice = css({
+  fontSize: 'lg',
+  fontWeight: '600',
+});
+
+const cartButton = css({
+  fontSize: '18px',
+  fontWeight: '700',
+});

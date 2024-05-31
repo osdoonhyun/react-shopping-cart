@@ -6,7 +6,7 @@ export default function OrderListPage() {
   const { orders } = useGetOrdersQuery();
 
   return (
-    <section className='order-section'>
+    <section>
       <OrderTitle title='주문 목록' />
 
       <OrderList orders={orders} />

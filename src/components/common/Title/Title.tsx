@@ -22,11 +22,17 @@ export default function Title({
 
 const tagVariantStyle = {
   title: css({
-    fontSize: '24px',
     fontWeight: 'medium',
+    fontSize: {
+      base: '22px',
+      sm: '24px',
+    },
   }),
   subtitle: css({
-    fontSize: '20px',
     fontWeight: 'normal',
+    fontSize: {
+      base: '18px',
+      sm: '20px',
+    },
   }),
 };

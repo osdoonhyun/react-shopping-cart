@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router';
+import Button from '@components/common/Button/Button';
 import { css } from '@/styled-system/css';
 import { Order } from '@/types/order';
 
@@ -23,12 +24,12 @@ export default function OrderHeader({
     <div className={orderListHeader}>
       <span>주문번호 : {id}</span>
       {detailButton && (
-        <button
-          className={orderDetail}
+        <Button
+          variant='ghost'
+          colorScheme='gray'
+          className={css({ padding: '0', fontSize: '18px' })}
           onClick={() => handleDetailsButtonClick(String(id))}
-        >
-          <span>{`상세보기 >`}</span>
-        </button>
+        >{`상세보기 >`}</Button>
       )}
     </div>
   );
@@ -45,8 +46,4 @@ const orderListHeader = css({
   background: '#f6f6f6',
   border: '1px solid #aaaaaa',
   borderBottom: 'none',
-});
-
-const orderDetail = css({
-  cursor: 'pointer',
 });

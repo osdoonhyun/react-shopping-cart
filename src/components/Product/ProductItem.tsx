@@ -3,6 +3,8 @@ import { useNavigate } from '@tanstack/react-router';
 import { flex } from '@/styled-system/patterns';
 import { css } from '@/styled-system/css';
 import Divider from '@components/common/Divider/Divider';
+import IconButton from '@components/common/Button/IconButton';
+import Image from '@components/common/Image/Image';
 import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
 import { Product } from '@/types/product';
 import { formatToKRW } from '@/utils/formatter';
@@ -63,44 +65,14 @@ export default function ProductItem({
 
   return (
     <article
-      className={flex({
-        width: '100%',
-        flexDirection: 'column',
-        alignItems: 'space-between',
-        marginTop: '10px',
-        outline: '1px solid #ddd',
-        borderRadius: '4px',
-      })}
+      className={productItemContainer}
       onClick={() => handleClickProductItem(String(id))}
     >
       <figure>
-        <img src={imageUrl} alt={name} />
-        {/* <div
-          className={css({
-            width: '100%',
-            height: '48px',
-            textAlign: 'left',
-            marginTop: '10px',
-            paddingX: '6px',
-            overflow: 'hidden',
-          })}
-        > */}
-        <figcaption
-          className={css({
-            width: '100%',
-            height: '48px',
-            textAlign: 'left',
-            marginTop: '10px',
-            paddingX: '6px',
-            overflow: 'hidden',
-          })}
-        >
-          {name}
-        </figcaption>
-        {/* </div> */}
+        <Image size='full' src={imageUrl} alt={name} />
+        <figcaption className={productItemFigCaption}>{name}</figcaption>
       </figure>
 
-      {/* Divider */}
       <Divider color='lightGray' />
 
       <div
@@ -112,11 +84,32 @@ export default function ProductItem({
         })}
       >
         <span>{formatToKRW(price)}</span>
-        {/* IconButton */}
-        <button onClick={handleCartClick}>
-          <img src={cartImg} alt='장바구니' />
-        </button>
+        <IconButton
+          variant='ghost'
+          colorScheme='gray'
+          aria-label='cart'
+          onClick={handleCartClick}
+          icon={<Image variant='icon' src={cartImg} alt='장바구니' />}
+        />
       </div>
     </article>
   );
 }
+
+const productItemContainer = flex({
+  width: '100%',
+  flexDirection: 'column',
+  alignItems: 'space-between',
+  marginTop: '10px',
+  outline: '1px solid #ddd',
+  borderRadius: '4px',
+});
+
+const productItemFigCaption = css({
+  width: '100%',
+  height: '48px',
+  textAlign: 'left',
+  marginTop: '10px',
+  paddingX: '6px',
+  overflow: 'hidden',
+});

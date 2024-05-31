@@ -25,12 +25,7 @@ export default function CartProducts({
   return (
     <>
       {hasProducts ? (
-        <ul
-          className={flex({
-            flexDirection: 'column',
-            gap: '20px',
-          })}
-        >
+        <ul className={cartProductItemContainer}>
           {cartProducts.map((cartProduct) => (
             <CartProductItem
               key={cartProduct.id}
@@ -52,10 +47,20 @@ export default function CartProducts({
   );
 }
 
+const cartProductItemContainer = flex({
+  flexDirection: 'column',
+  gap: '20px',
+  padding: '0',
+  flexGrow: 1,
+});
+
 const empty = flex({
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: '200px',
+  marginTop: {
+    base: '100px',
+    lg: '200px',
+  },
 });
 
 const emptyMessage = css({

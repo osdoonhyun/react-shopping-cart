@@ -1,5 +1,6 @@
 import { css } from '@/styled-system/css';
 import { flex } from '@/styled-system/patterns';
+import Image from '@components/common/Image/Image';
 import { OrderDetail } from '@/types/order';
 import { formatToKRW } from '@/utils/formatter';
 
@@ -11,85 +12,24 @@ export default function OrderResultItem({
   orderDetail: { name, imageUrl, quantity, price },
 }: OrderResultItemProps) {
   return (
-    <li className={flex({ gap: '10px' })}>
-      <div
-        className={flex({
-          justifyContent: 'row',
-          alignItems: 'center',
-          gap: '10px',
-        })}
-      >
-        <img
-          className={css({
-            width: {
-              base: '80px',
-              sm: '120px',
-            },
-            height: {
-              base: '80px',
-              sm: '120px',
-            },
-            flex: '1 0 120px !important',
-            objectFit: 'cover',
-            borderRadius: '4px',
-            border: 'none',
-          })}
+    <li className={orderResultItemContainer}>
+      <div className={orderResultItemImageSection}>
+        <Image
+          size='sm'
+          className={orderResultItemImage}
           src={imageUrl}
           alt={name}
         />
       </div>
-      <div
-        className={flex({
-          position: 'relative',
-          flex: '1 0 0',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          padding: {
-            base: '4px',
-            sm: '10px',
-          },
-        })}
-      >
-        <span
-          className={css({
-            fontSize: {
-              base: '14px',
-              sm: '18px',
-            },
-            paddingRight: '12px',
-          })}
-        >
-          {name}
-        </span>
-        <div
-          className={flex({
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          })}
-        >
-          <div
-            className={flex({
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            })}
-          >
+      <div className={orderResultItemInfoSection}>
+        <span className={orderResultItemName}>{name}</span>
+        <div className={orderResultItemQuantityAndPriceSection}>
+          <div className={orderResultItemQuantitySection}>
             <span
-              className={css({
-                fontSize: {
-                  base: '14px',
-                  sm: '18px',
-                },
-              })}
+              className={orderResultItemQuantity}
             >{`수량: ${quantity}`}</span>
           </div>
-          <span
-            className={css({
-              fontSize: {
-                base: '14px',
-                sm: '18px',
-              },
-            })}
-          >
+          <span className={orderResultItemPrice}>
             {formatToKRW(price * quantity)}
           </span>
         </div>
@@ -97,3 +37,59 @@ export default function OrderResultItem({
     </li>
   );
 }
+
+const orderResultItemContainer = flex({ gap: '10px' });
+
+const orderResultItemImageSection = flex({
+  justifyContent: 'row',
+  alignItems: 'center',
+  gap: '10px',
+});
+
+const orderResultItemImage = css({
+  flex: '1 0 120px !important',
+  borderRadius: '4px',
+});
+
+const orderResultItemInfoSection = flex({
+  position: 'relative',
+  flex: '1 0 0',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  padding: {
+    base: '4px',
+    sm: '10px',
+  },
+});
+
+const orderResultItemName = css({
+  fontSize: {
+    base: '14px',
+    sm: '18px',
+  },
+  paddingRight: '12px',
+});
+
+const orderResultItemQuantityAndPriceSection = flex({
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+});
+
+const orderResultItemQuantitySection = flex({
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+});
+
+const orderResultItemQuantity = css({
+  fontSize: {
+    base: '14px',
+    sm: '18px',
+  },
+});
+
+const orderResultItemPrice = css({
+  fontSize: {
+    base: '14px',
+    sm: '18px',
+  },
+});

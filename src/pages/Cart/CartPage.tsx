@@ -10,65 +10,65 @@ export default function CartPage() {
   const [selectedProducts, setSelectedProducts] = useState<CartProduct[]>([]);
 
   return (
-    <section
-      className={flex({
-        flexDirection: 'column',
-        paddingBottom: '60px',
-        gap: '20px',
-      })}
-    >
+    <section className={cartSection}>
       <CartHeader />
 
-      <div
-        className={flex({
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          gap: '50px',
-        })}
-      >
-        <section
-          className={flex({
-            flexDirection: 'column',
-            flexGrow: 1,
-          })}
-        >
+      <div className={cartContentConatiner}>
+        <section className={cartTableSection}>
           <CartTable
             selectedProducts={selectedProducts}
             selectProduct={setSelectedProducts}
           />
         </section>
 
-        <section
-          className={css({
-            position: {
-              base: 'fixed',
-              lg: 'static',
-            },
-            bottom: {
-              base: '0',
-              lg: 'auto',
-            },
-            left: {
-              base: '0',
-              lg: 'auto',
-            },
-            width: {
-              base: '100%',
-              lg: '280px',
-            },
-            minWidth: '375px',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: '10px',
-            border: '1px solid #d1d1d1',
-            borderRadius: '4px',
-            backgroundColor: 'white',
-          })}
-        >
+        <section className={cartPaymentsSection}>
           <CartPayments selectedProducts={selectedProducts} />
         </section>
       </div>
     </section>
   );
 }
+
+const cartSection = flex({
+  flexDirection: 'column',
+  paddingBottom: '60px',
+  gap: '20px',
+});
+
+const cartContentConatiner = flex({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  gap: '50px',
+});
+
+const cartTableSection = flex({
+  flexDirection: 'column',
+  flexGrow: 1,
+});
+
+const cartPaymentsSection = css({
+  position: {
+    base: 'fixed',
+    lg: 'static',
+  },
+  bottom: {
+    base: '0',
+    lg: 'auto',
+  },
+  left: {
+    base: '0',
+    lg: 'auto',
+  },
+  width: {
+    base: '100%',
+    lg: '280px',
+  },
+  minWidth: '375px',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  gap: '10px',
+  border: '1px solid #d1d1d1',
+  borderRadius: '4px',
+  backgroundColor: 'white',
+});

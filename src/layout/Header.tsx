@@ -1,68 +1,49 @@
 import { Link } from '@tanstack/react-router';
 import { css } from '@/styled-system/css';
 import { flex } from '@/styled-system/patterns';
+import Button from '@components/common/Button/Button';
 import useCartStore from '@/store/cartStore';
+
+const Logo = () => {
+  return (
+    <div
+      className={css({
+        alignItems: 'center',
+      })}
+    >
+      <Button variant='ghost' colorScheme='blue'>
+        <h1
+          className={css({
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: {
+              base: '24px',
+              sm: '32px',
+              lg: '36px',
+            },
+          })}
+        >
+          🛒 NEXTSTEP
+        </h1>
+      </Button>
+    </div>
+  );
+};
 
 export default function Header() {
   const cart = useCartStore.use.cart();
 
   return (
-    <header
-      className={css({
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        minWidth: '375px',
-        height: '80px',
-        backgroundColor: 'blue.300',
-      })}
-    >
-      <nav
-        className={css({
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          maxWidth: '1280px',
-          width: '100%',
-          padding: '0 20px',
-        })}
-      >
-        {/* LOGO */}
-        <div
-          className={css({
-            alignItems: 'center',
-            gap: '8px',
-          })}
-        >
-          <button
-            className={css({
-              paddingX: '12px',
-            })}
-          >
-            <Link to='/list'>
-              <h1
-                className={css({
-                  color: 'white',
-                  fontSize: '40px',
-                  fontWeight: 'bold',
-                })}
-              >
-                🛒 NEXTSTEP
-              </h1>
-            </Link>
-          </button>
-        </div>
+    <header className={headerContainer}>
+      <nav className={navContainer}>
+        <Link to='/list'>
+          <Logo />
+        </Link>
 
-        {/* LINKS */}
         <div
           className={flex({
             gap: {
-              base: '10px',
+              base: '8px',
               sm: '18px',
             },
           })}
@@ -82,11 +63,38 @@ export default function Header() {
   );
 }
 
+const headerContainer = css({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  minWidth: '375px',
+  height: {
+    base: '60px',
+    sm: '80px',
+  },
+  backgroundColor: 'blue.300',
+});
+
+const navContainer = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  maxWidth: '1280px',
+  width: '100%',
+  padding: '0 20px',
+});
+
 const headerLink = css({
   color: 'white',
   fontWeight: 'semibold',
   fontSize: {
-    base: '18px',
-    sm: '22px',
+    base: '16px',
+    sm: '20px',
+    lg: '22px',
   },
 });

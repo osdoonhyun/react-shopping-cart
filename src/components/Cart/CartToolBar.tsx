@@ -1,5 +1,7 @@
 import { css } from '@/styled-system/css';
 import { flex } from '@/styled-system/patterns';
+import Button from '@components/common/Button/Button';
+import CheckBox from '@components/common/CheckBox/CheckBox';
 
 interface CartToolBarProps {
   hasProducts: boolean;
@@ -15,92 +17,48 @@ export default function CartToolBar({
   onRemoveSelectedProducts,
 }: CartToolBarProps) {
   return (
-    <section
-      className={flex({
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      })}
-    >
+    <section className={cartToolBarSection}>
       {hasProducts && (
-        <>
-          <div
-            className={flex({
-              justifyContent: 'space-between',
-              width: '278px',
-              flexGrow: 1,
-            })}
+        <div
+          className={flex({
+            justifyContent: 'space-between',
+            width: '278px',
+            flexGrow: 1,
+          })}
+        >
+          <CheckBox
+            colorScheme='blue'
+            isChecked={isSelectedAll()}
+            onChange={onSelectAllChange}
           >
-            <label
-              className={css({
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-                backgroundColor: 'white',
-              })}
-            >
-              <input
-                className={css({
-                  appearance: 'none',
-                  width: '18px',
-                  height: '18px',
-                  border: '1px solid #ccc',
-                  outline: 'none',
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s ease-in-out',
+            {isSelectedAll() ? '선택해제' : '전체선택'}
+          </CheckBox>
 
-                  '&:checked': {
-                    borderColor: 'blue.500',
-                    backgroundColor: 'blue.500',
-                  },
-
-                  '& + span': {
-                    marginLeft: '8px',
-                  },
-
-                  '&:checked::after': {
-                    content: '""',
-                    display: 'block',
-                    width: '5px',
-                    height: '10px',
-                    border: 'solid white',
-                    borderWidth: '0 2px 2px 0',
-                    transform: 'rotate(45deg)',
-                    marginLeft: '6px',
-                    marginTop: '2px',
-                  },
-                })}
-                type='checkbox'
-                checked={isSelectedAll()}
-                onChange={onSelectAllChange}
-              />
-              <span
-                className={css({
-                  fontSize: '14px',
-                  lineHeight: '1',
-                  userSelect: 'none',
-                })}
-              >
-                {isSelectedAll() ? '선택해제' : '전체선택'}
-              </span>
-            </label>
-
-            <button
-              className={css({
-                display: 'inline',
-                width: 'max-content',
-                padding: '0 0 0 0',
-                borderBottom: '1px solid #bbb',
-                color: 'gray800',
-                fontSize: '14px',
-              })}
-              onClick={onRemoveSelectedProducts}
-            >
-              상품삭제
-            </button>
-          </div>
-        </>
+          <Button
+            variant='ghost'
+            colorScheme='gray'
+            className={removeButton}
+            onClick={onRemoveSelectedProducts}
+          >
+            상품삭제
+          </Button>
+        </div>
       )}
     </section>
   );
 }
+
+const cartToolBarSection = flex({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
+
+const removeButton = css({
+  display: 'inline',
+  padding: '0',
+  borderRadius: '0',
+  borderBottom: '1px solid #bbb',
+  fontSize: '14px',
+  color: 'gray.500',
+});

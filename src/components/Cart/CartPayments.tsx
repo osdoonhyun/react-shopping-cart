@@ -1,12 +1,12 @@
 import { useNavigate } from '@tanstack/react-router';
-import { css } from '@/styled-system/css';
 import { flex } from '@/styled-system/patterns';
+import Divider from '@components/common/Divider/Divider';
+import Title from '@components/common/Title/Title';
+import Button from '@components/common/Button/Button';
 import useAlertDialogStore from '@/store/alertDialogStore';
 import useCartStore from '@/store/cartStore';
 import useOrderStore from '@/store/orderStore';
 import { usePostOrderProductsMutation } from '@/hooks/mutations/usePostOrderProductsMutation';
-import Divider from '@components/common/Divider/Divider';
-import Title from '@components/common/Title/Title';
 import { CartProduct } from '@/types/cart';
 import { OrderDetail } from '@/types/order';
 import {
@@ -80,22 +80,8 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
 
   return (
     <>
-      <div
-        className={flex({
-          flexDirection: 'column',
-          padding: '20px',
-          gap: '20px',
-        })}
-      >
-        <div
-          className={flex({
-            display: {
-              base: 'none',
-              lg: 'block',
-            },
-            flexDirection: 'column',
-          })}
-        >
+      <div className={cartPaymentContainer}>
+        <div className={cartPaymentContent}>
           <Title as='h3' variant='subtitle'>
             결제예상금액
           </Title>
@@ -113,27 +99,29 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
         </div>
       </div>
 
-      <button
-        className={css({
-          width: '100%',
-          height: 'auto',
-          textAlign: 'center',
-          padding: '10px 16px',
-          fontSize: 'subtitle',
-          cursor: 'pointer',
-          transition: 'background-color 0.2s',
-          backgroundColor: 'blue.400',
-          color: 'white',
-          _disabled: {
-            opacity: 0.6,
-            cursor: 'not-allowed',
-          },
-        })}
+      <Button
+        variant='solid'
+        colorScheme='blue'
+        style={{ borderRadius: 0, width: '100%' }}
         onClick={handleOrderButtonClick}
         disabled={totalQuantity === 0}
       >
         {`주문하기(${totalQuantity}개)`}
-      </button>
+      </Button>
     </>
   );
 }
+
+const cartPaymentContainer = flex({
+  flexDirection: 'column',
+  padding: '20px',
+  gap: '20px',
+});
+
+const cartPaymentContent = flex({
+  display: {
+    base: 'none',
+    lg: 'block',
+  },
+  flexDirection: 'column',
+});

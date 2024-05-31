@@ -9,7 +9,11 @@ export default function Body({ children }: PropsWithChildren) {
         flexDirection: 'column',
         width: '100%',
         maxWidth: '1280px',
-        margin: '80px auto 0',
+        marginTop: {
+          base: '40px',
+          sm: '80px',
+        },
+        margin: '0 auto',
         padding: '60px 20px',
       })}
     >

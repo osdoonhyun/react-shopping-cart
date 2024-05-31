@@ -4,6 +4,7 @@ import { css } from '@/styled-system/css';
 import OrderTitle from '@components/Order/@common/OrderTitle';
 import OrderHeader from '@components/Order/@common/OrderHeader';
 import Divider from '@components/common/Divider/Divider';
+import Image from '@components/common/Image/Image';
 import { formatToKRW } from '@/utils/formatter';
 import { Order, OrderDetail } from '@/types/order';
 import { calculateTotalAmount } from '@/utils/order';
@@ -37,24 +38,17 @@ export default function OrderDetailPage({ id }: OrderDetailPayload) {
               })}
             >
               <div className={flex({ gap: '15px', marginTop: '10px' })}>
-                <img
+                <Image
+                  size='sm'
                   className={css({
-                    width: {
-                      base: '80px',
-                      sm: '120px',
-                    },
-                    height: {
-                      base: '80px',
-                      sm: '120px',
-                    },
                     flex: '1 0 120px !important',
-                    objectFit: 'cover',
-                    borderRadius: '4px',
-                    border: 'none',
+                    borderRadius: '2px',
                   })}
+                  variant='outline'
                   src={imageUrl}
                   alt={name}
                 />
+
                 <div
                   className={flex({
                     flexDirection: 'column',

@@ -1,6 +1,6 @@
-import { css } from '@/styled-system/css';
 import { flex } from '@/styled-system/patterns';
 import { formatToKRW } from '@/utils/formatter';
+import Button from '@components/common/Button/Button';
 import Divider from '@components/common/Divider/Divider';
 import Title from '@components/common/Title/Title';
 
@@ -15,60 +15,46 @@ export default function OrderResultPayments({
 }: OrderResultPaymentsProps) {
   return (
     <>
-      <div
-        className={flex({
-          flexDirection: 'column',
-          padding: '20px',
-          gap: '20px',
-        })}
-      >
-        <div
-          className={flex({
-            display: {
-              base: 'none',
-              lg: 'block',
-            },
-            flexDirection: 'column',
-          })}
-        >
+      <div className={orderResultPaymentsContainer}>
+        <div className={orderResultPaymentsContent}>
           <Title as='h3' variant='subtitle'>
             결제금액
           </Title>
           <Divider color='gray' />
         </div>
 
-        <div
-          className={flex({
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          })}
-        >
+        <div className={orderResultPaymentsTotalAmount}>
           <span className='highlight-text'>총 결제금액</span>
           <span className='highlight-text'>{formatToKRW(totalAmount)}</span>
         </div>
       </div>
 
-      <button
-        className={css({
-          width: '100%',
-          height: 'auto',
-          textAlign: 'center',
-          padding: '10px 16px',
-          fontSize: 'subtitle',
-          cursor: 'pointer',
-          transition: 'background-color 0.2s',
-          backgroundColor: 'blue.400',
-          color: 'white',
-          _disabled: {
-            opacity: 0.6,
-            cursor: 'not-allowed',
-          },
-        })}
+      <Button
+        variant='solid'
+        colorScheme='blue'
+        style={{ width: '100%', borderRadius: 0 }}
         onClick={onPaymentButtonClick}
         disabled={totalAmount === 0}
-      >
-        {`${formatToKRW(totalAmount)} 결제하기`}
-      </button>
+      >{`${formatToKRW(totalAmount)} 결제하기`}</Button>
     </>
   );
 }
+
+const orderResultPaymentsContainer = flex({
+  flexDirection: 'column',
+  padding: '20px',
+  gap: '20px',
+});
+
+const orderResultPaymentsContent = flex({
+  display: {
+    base: 'none',
+    lg: 'block',
+  },
+  flexDirection: 'column',
+});
+
+const orderResultPaymentsTotalAmount = flex({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+});
