@@ -1,9 +1,11 @@
-import { useGetOrdersQuery } from '@/hooks/queries/useGetOrdersQuery';
+import useOrderStore from '@/store/orderStore';
 import OrderTitle from '@components/Order/@common/OrderTitle';
 import OrderList from '@components/Order/List/OrderList';
 
 export default function OrderListPage() {
-  const { orders } = useGetOrdersQuery();
+  // TODO: 서버 데이터
+  // const { orders } = useGetOrdersQuery();
+  const orders = useOrderStore.use.order();
 
   return (
     <section>

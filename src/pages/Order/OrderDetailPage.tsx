@@ -1,6 +1,6 @@
-import { useGetOrderDetailQuery } from '@/hooks/queries/useGetOrderDetailQuery';
 import { flex } from '@/styled-system/patterns';
 import { css } from '@/styled-system/css';
+import useOrderStore from '@/store/orderStore';
 import OrderTitle from '@components/Order/@common/OrderTitle';
 import OrderHeader from '@components/Order/@common/OrderHeader';
 import Divider from '@components/common/Divider/Divider';
@@ -14,7 +14,11 @@ interface OrderDetailPayload {
 }
 
 export default function OrderDetailPage({ id }: OrderDetailPayload) {
-  const { orderDetails } = useGetOrderDetailQuery({ id });
+  // TODO: 서버 데이터
+  // const { orderDetails } = useGetOrderDetailQuery({ id });
+  const getOrderById = useOrderStore.use.getOrderById();
+
+  const orderDetails = getOrderById(id)?.orderDetails ?? [];
 
   const totalAmount = calculateTotalAmount(orderDetails);
 
@@ -105,7 +109,7 @@ export default function OrderDetailPage({ id }: OrderDetailPayload) {
             })}
           >
             <span className='highlight-text'>총 결제금액</span>
-            <span className='highlight-text'>{formatToKRW(totalAmount)}</span>D
+            <span className='highlight-text'>{formatToKRW(totalAmount)}</span>
           </div>
         </div>
       </div>
