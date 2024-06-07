@@ -1,10 +1,13 @@
 import ProductItem from '@components/Product/ProductItem';
 import { grid } from '@/styled-system/patterns';
 import { useGetProductListQuery } from '@/hooks/queries/useGetProductListQuery';
+import { useScrollPosition } from '@/hooks/common/useScrollPosition';
 import { Product } from '@/types/product';
 
 export default function ProductListPage() {
   const { products, ref } = useGetProductListQuery();
+
+  useScrollPosition('ProductListPage');
 
   return (
     <>
