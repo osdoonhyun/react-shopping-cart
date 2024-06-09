@@ -1,15 +1,24 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { sessionStorageUtils } from '@/utils/sessionStorage';
 
-export const useScrollPosition = (pageName: string) => {
-  const lastCall = useRef(Date.now());
+const getScrollPositionMap = () =>
+  new Map<string, number>(
+    JSON.parse(sessionStorageUtils.getItem('scroll-position') || '[]')
+  );
 
+export const useScrollPosition = (pageName: string) => {
+  const lastCall = useRef(Date.now()); // Debounce
+
+  // 스크롤 위치 설정
   useLayoutEffect(() => {
-    const scrollPositionMap = new Map<string, number>(
-      JSON.parse(sessionStorageUtils.getItem('scroll-position') || '[]')
-    );
+    const scrollPositionMap = getScrollPositionMap();
 
     window.scrollTo(0, scrollPositionMap.get(pageName) || 0);
+  }, [pageName]);
+
+  // 스크롤 위치 저장
+  useEffect(() => {
+    const scrollPositionMap = getScrollPositionMap();
 
     const handleScroll = () => {
       if (Date.now() - lastCall.current < 200) {
