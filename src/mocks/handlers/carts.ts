@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, PathParams } from 'msw';
 import { MOCK_CARTS_DATA } from '../data/carts';
 import { CartProduct } from '@/types/cart';
 import { generateUniqueId } from '@/utils/uniqueId';
@@ -22,6 +22,19 @@ export const cartsHandlers = [
 
     return HttpResponse.json(newCartProduct, { status: 201 });
   }),
+
+  http.post<PathParams, { data: CartProduct[] }>(
+    '/cart',
+    async ({ request }) => {
+      const { data: products } = await request.json();
+
+      products.forEach(({ id, product }) => {
+        cartList.push({ id, product });
+      });
+
+      return HttpResponse.json(products, { status: 201 });
+    }
+  ),
 
   http.delete('/carts/product/:id', ({ params }) => {
     const { id: targetProductId } = params;

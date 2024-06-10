@@ -2,12 +2,14 @@ import { create } from 'zustand';
 import createSelectors from '@/store/selectors';
 import { persist } from 'zustand/middleware';
 import { Order } from '@/types/order';
+import { LOCAL_STORAGE_KEYS } from '@/constants/storageKey';
 
 interface OrderState {
   order: Order[];
   addOrder: (order: Order) => void;
   getOrderById: (orderId: Order['id']) => Order | undefined;
   clearOrder: () => void;
+  setOrder: (order: Order[]) => void;
 }
 
 const useOrderStoreBase = create<OrderState>()(
@@ -25,8 +27,13 @@ const useOrderStoreBase = create<OrderState>()(
         get().order.find((order) => order.id === orderId),
 
       clearOrder: () => set({ order: [] }),
+      setOrder: (order) => set({ order }),
     }),
-    { name: 'order-storage' }
+    {
+      name: LOCAL_STORAGE_KEYS.ORDER,
+      partialize: (state) => ({ order: state.order }),
+      version: 1,
+    }
   )
 );
 

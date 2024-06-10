@@ -2,18 +2,18 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import createSelectors from '@/store/selectors';
 import { CartProduct } from '@/types/cart';
+import { LOCAL_STORAGE_KEYS } from '@/constants/storageKey';
 
 interface CartState {
   cart: CartProduct[];
 
-  // actions: {
   addToCart: (product: CartProduct) => void;
   clearCart: () => void;
   removeProducts: (productIds: CartProduct['id'][]) => void;
   removeProduct: (productId: CartProduct['id']) => void;
   increaseQuantity: (productId: CartProduct['id']) => void;
   decreaseQuantity: (productId: CartProduct['id']) => void;
-  // };
+  setCart: (cart: CartProduct[]) => void;
 }
 
 const useCartStoreBase = create<CartState>()(
@@ -21,7 +21,6 @@ const useCartStoreBase = create<CartState>()(
     (set, get) => ({
       cart: [],
 
-      // actions: {
       addToCart: (product) =>
         set((state) => {
           const isProductExist = get().cart.some(
@@ -63,9 +62,13 @@ const useCartStoreBase = create<CartState>()(
               : item
           ),
         })),
-      // },
+      setCart: (cart) => set({ cart }),
     }),
-    { name: 'cart-storage', partialize: (state) => ({ cart: state.cart }) }
+    {
+      name: LOCAL_STORAGE_KEYS.CART,
+      partialize: (state) => ({ cart: state.cart }),
+      version: 1,
+    }
   )
 );
 

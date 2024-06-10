@@ -5,3 +5,10 @@ export interface CartProduct {
   product: Product;
   quantity?: number;
 }
+
+export type CartState = {
+  state: {
+    cart: CartProduct[];
+  };
+  version: number;
+};

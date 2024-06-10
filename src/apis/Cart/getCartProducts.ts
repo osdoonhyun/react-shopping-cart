@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { CartProduct } from '@/types/cart';
 
-export const getCartProducts = async () => {
-  const response = await axios.get('/carts');
+export const getCartProducts = async (): Promise<CartProduct[]> => {
+  const response = await axios.get<CartProduct[]>('/carts');
 
   return response.data;
 };
