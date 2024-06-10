@@ -1,9 +1,12 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { sessionStorageUtils } from '@/utils/sessionStorage';
+import { SESSION_STORAGE_KEYS } from '@/constants/storageKey';
 
 const getScrollPositionMap = () =>
   new Map<string, number>(
-    JSON.parse(sessionStorageUtils.getItem('scroll-position') || '[]')
+    JSON.parse(
+      sessionStorageUtils.getItem(SESSION_STORAGE_KEYS.SCROLL_POSITION) || '[]'
+    )
   );
 
 export const useScrollPosition = (pageName: string) => {
@@ -28,7 +31,7 @@ export const useScrollPosition = (pageName: string) => {
       lastCall.current = Date.now();
       scrollPositionMap.set(pageName, window.scrollY);
       sessionStorageUtils.setItem(
-        'scroll-position',
+        SESSION_STORAGE_KEYS.SCROLL_POSITION,
         JSON.stringify(Array.from(scrollPositionMap))
       );
     };
