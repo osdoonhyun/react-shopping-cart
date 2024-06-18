@@ -77,6 +77,7 @@ const headerContainer = css({
     sm: '80px',
   },
   backgroundColor: 'blue.300',
+  zIndex: 1000,
 });
 
 const navContainer = css({

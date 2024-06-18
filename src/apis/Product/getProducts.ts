@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-interface PageParam {
+interface cursorParam {
   limit: number;
-  offset: number;
+  cursor: number;
 }
 
-export const fetchProducts = async ({ offset, limit }: PageParam) => {
+export const fetchProducts = async ({ cursor, limit }: cursorParam) => {
   const response = await axios.get('/products', {
-    params: { offset, limit },
+    params: { cursor, limit },
   });
   const products = response.data;
 

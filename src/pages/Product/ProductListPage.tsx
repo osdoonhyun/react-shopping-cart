@@ -1,33 +1,65 @@
+import { flex, grid } from '@/styled-system/patterns';
 import ProductItem from '@components/Product/ProductItem';
-import { grid } from '@/styled-system/patterns';
-import { useGetProductListQuery } from '@/hooks/queries/useGetProductListQuery';
+import { useGetVirtualizedProductList } from '@/hooks/queries/useGetVirtualizedProductList';
 import { useScrollPosition } from '@/hooks/common/useScrollPosition';
-import { Product } from '@/types/product';
+import { getResponsiveLanes } from '@/utils/responsiveLanes';
 
 export default function ProductListPage() {
-  const { products, ref } = useGetProductListQuery();
+  const lanes = getResponsiveLanes();
+  const { products, containerRef, virtualizer } =
+    useGetVirtualizedProductList();
 
-  useScrollPosition('ProductListPage');
+  useScrollPosition('ProductListPage', virtualizer);
 
   return (
-    <>
-      <section
+    <div
+      ref={containerRef}
+      className={flex({
+        flexDir: 'column',
+        width: '100%',
+        alignItems: 'center',
+        overflow: 'auto',
+      })}
+    >
+      <ul
+        style={{
+          height: `${virtualizer.getTotalSize()}px`,
+          width: '100%',
+          position: 'relative',
+        }}
         className={grid({
-          gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
-          rowGap: '40px',
-          columnGap: '40px',
-          maxWidth: '1200px',
-          '@media (max-width: 1024px)': {
-            maxWidth: 'unset',
+          rowGap: '20px',
+          columnGap: '20px',
+          columns: {
+            xl: 4,
+            md: 3,
+            sm: 2,
+            base: 1,
           },
         })}
       >
-        {products?.map((product: Product) => (
-          <ProductItem key={product.id} {...product} />
+        {virtualizer.getVirtualItems()?.map((virtualItem) => (
+          <li
+            key={virtualItem.key}
+            ref={virtualizer.measureElement}
+            data-index={virtualItem.index}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: `${(virtualItem.lane * 100) / lanes}%`,
+              width: `${100 / lanes}%`,
+              height: `${products[virtualItem.index]}px`,
+              transform: `translateY(${virtualItem.start}px)`,
+              padding: '20px',
+            }}
+          >
+            <ProductItem
+              {...products[virtualItem.index]}
+              index={virtualItem.index}
+            />
+          </li>
         ))}
-      </section>
-
-      <div ref={ref} />
-    </>
+      </ul>
+    </div>
   );
 }

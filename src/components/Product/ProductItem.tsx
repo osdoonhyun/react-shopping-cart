@@ -1,27 +1,34 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useRef } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { flex } from '@/styled-system/patterns';
 import { css } from '@/styled-system/css';
 import Divider from '@components/common/Divider/Divider';
 import IconButton from '@components/common/Button/IconButton';
 import Image from '@components/common/Image/Image';
-import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
-import { Product } from '@/types/product';
-import { formatToKRW } from '@/utils/formatter';
 import cartImg from '@/assets/svgs/cart.svg';
+import { usePostCartProductMutation } from '@/hooks/mutations/usePostCartProductMutation';
+import { getScrollPositionMap } from '@/hooks/common/useScrollPosition';
 import useCartStore from '@/store/cartStore';
 import useAlertDialogStore from '@/store/alertDialogStore';
+import { formatToKRW } from '@/utils/formatter';
+import { sessionStorageUtils } from '@/utils/sessionStorage';
 import { checkProductExistInCart } from '@/utils/cart';
+import { SESSION_STORAGE_KEYS } from '@/constants/storageKey';
+import { Product } from '@/types/product';
 
-interface ProductItemProps extends Product {}
+interface ProductItemProps extends Product {
+  scrollIndex: number;
+}
 
 export default function ProductItem({
   id,
   name,
   imageUrl,
   price,
+  scrollIndex,
 }: ProductItemProps) {
   const navigate = useNavigate({ from: '/list' });
+  const productItemRef = useRef<HTMLDivElement>(null);
 
   const openAlertDialog = useAlertDialogStore.use.onOpen();
 
@@ -30,6 +37,14 @@ export default function ProductItem({
   const { mutate: postCartProduct } = usePostCartProductMutation();
 
   const handleClickProductItem = (productId: string) => {
+    const scrollPositionMap = getScrollPositionMap();
+
+    scrollPositionMap.set('ProductListPage', scrollIndex);
+    sessionStorageUtils.setItem(
+      SESSION_STORAGE_KEYS.SCROLL_POSITION,
+      JSON.stringify(Array.from(scrollPositionMap))
+    );
+
     navigate({ to: '/list/$productId', params: { productId } });
   };
 
@@ -65,6 +80,7 @@ export default function ProductItem({
 
   return (
     <article
+      ref={productItemRef}
       className={productItemContainer}
       onClick={() => handleClickProductItem(String(id))}
     >
@@ -83,7 +99,7 @@ export default function ProductItem({
           padding: '0 10px 6px',
         })}
       >
-        <span>{formatToKRW(price)}</span>
+        <span>{formatToKRW(price)}</span>!{id}!
         <IconButton
           variant='ghost'
           colorScheme='gray'
@@ -103,6 +119,8 @@ const productItemContainer = flex({
   marginTop: '10px',
   outline: '1px solid #ddd',
   borderRadius: '4px',
+  minWidth: '100px',
+  minHeight: '200px',
 });
 
 const productItemFigCaption = css({
