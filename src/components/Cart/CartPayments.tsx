@@ -7,6 +7,7 @@ import useAlertDialogStore from '@/store/alertDialogStore';
 import useCartStore from '@/store/cartStore';
 import useOrderStore from '@/store/orderStore';
 import { usePostOrderProductsMutation } from '@/hooks/mutations/usePostOrderProductsMutation';
+import { useDeleteCartProductsMutation } from '@/hooks/mutations/useDeleteCartProductsMutation';
 import { CartProduct } from '@/types/cart';
 import { OrderDetail } from '@/types/order';
 import {
@@ -24,9 +25,13 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
 
   const openAlertDialog = useAlertDialogStore.use.onOpen();
 
+  // client
   const removeProducts = useCartStore.use.removeProducts();
-
   const addOrder = useOrderStore.use.addOrder();
+
+  // server
+  const { mutate: deleteCartProducts } = useDeleteCartProductsMutation();
+  const { mutate: postOrderProducts } = usePostOrderProductsMutation({});
 
   const moveToOrderResult = (id: number) => {
     navigate({
@@ -34,8 +39,6 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
       params: { id: String(id) },
     });
   };
-
-  const { mutate: postOrderProducts } = usePostOrderProductsMutation({});
 
   const handleOrderButtonClick = () => {
     openAlertDialog({
@@ -66,6 +69,7 @@ export default function CartPayments({ selectedProducts }: CartPaymentsProps) {
               addOrder(newOrder);
               // 3. 선택한 상품들 장바구니에서 삭제
               removeProducts(selectedIds);
+              deleteCartProducts(selectedIds);
               // 4. OrderResult 페이지로 이동
               moveToOrderResult(newOrder.id);
             },

@@ -3,7 +3,7 @@ import { useSync } from './useSync';
 import { useGetCartProductsQuery } from '../queries/useGetCartProductsQuery';
 import { useGetOrderQuery } from '../queries/useGetOrderQuery';
 import { usePostCartMutation } from '../mutations/usePostCartMutation';
-import { usePostOrderMutation } from '../mutations/usePostOrderMutation';
+import { usePostOrderListMutation } from '../mutations/usePostOrderListMutation';
 import useCartStore from '@/store/cartStore';
 import useOrderStore from '@/store/orderStore';
 import { LOCAL_STORAGE_KEYS } from '@/constants/storageKey';
@@ -28,7 +28,7 @@ export const useSyncWithClientAndServer = () => {
       if (localStorageCartState?.state?.cart) {
         return {
           state: { data: localStorageCartState.state.cart },
-          version: localStorageCartState.version,
+          version: localStorageCartState.version + 1,
         };
       }
       return null;
@@ -36,15 +36,14 @@ export const useSyncWithClientAndServer = () => {
     setData: (cart: CartProduct[]) => setCart(cart),
     getKey: (cart: CartProduct) => cart.product.id,
     updateServer: async (cart: CartProduct[]) => {
-      // await
-      return postCart(cart);
+      await postCart(cart);
     },
   });
 
   /* 주문 클라이언트 서버 데이터 Sync */
   const serverOrderQuery = useGetOrderQuery();
   const setOrder = useOrderStore.use.setOrder();
-  const { mutateAsync: postOrder } = usePostOrderMutation();
+  const { mutateAsync: postOrderList } = usePostOrderListMutation();
 
   const { update: updateOrderServer } = useSync({
     localStorageKey: LOCAL_STORAGE_KEYS.ORDER,
@@ -57,7 +56,7 @@ export const useSyncWithClientAndServer = () => {
       if (localStorageOrderState?.state?.order) {
         return {
           state: { data: localStorageOrderState.state.order },
-          version: localStorageOrderState.version,
+          version: localStorageOrderState.version + 1,
         };
       }
       return null;
@@ -65,8 +64,7 @@ export const useSyncWithClientAndServer = () => {
     setData: (order: Order[]) => setOrder(order),
     getKey: (order: Order) => order.id,
     updateServer: async (order: Order[]) => {
-      // await
-      return postOrder(order);
+      await postOrderList(order);
     },
   });
 

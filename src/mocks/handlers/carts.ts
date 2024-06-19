@@ -7,7 +7,7 @@ let cartList = MOCK_CARTS_DATA;
 
 export const cartsHandlers = [
   http.get('/carts', () => {
-    return HttpResponse.json(MOCK_CARTS_DATA);
+    return HttpResponse.json(cartList);
   }),
 
   http.post('/carts', async ({ request }) => {
@@ -22,14 +22,14 @@ export const cartsHandlers = [
 
     return HttpResponse.json(newCartProduct, { status: 201 });
   }),
-
+  // 장바구니 정보 설정(Sync용)
   http.post<PathParams, { data: CartProduct[] }>(
     '/cart',
     async ({ request }) => {
       const { data: products } = await request.json();
 
-      products.forEach(({ id, product }) => {
-        cartList.push({ id, product });
+      products?.forEach(({ id, product, quantity }) => {
+        cartList.push({ id, product, quantity });
       });
 
       return HttpResponse.json(products, { status: 201 });
@@ -41,7 +41,6 @@ export const cartsHandlers = [
     const targetCart = cartList.find(
       (cart) => cart.product.id === Number(targetProductId)
     );
-
     if (!targetCart) {
       return new HttpResponse(null, { status: 400 });
     }
