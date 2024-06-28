@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useSyncWithClientAndServer } from './hooks/common/useSyncWithClientAndServer';
 import { routeTree } from './routeTree.gen';
 import './index.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const router = createRouter({ routeTree });
 

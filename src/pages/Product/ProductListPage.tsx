@@ -1,5 +1,6 @@
 import { grid } from '@/styled-system/patterns';
 import ProductItem from '@components/Product/ProductItem';
+import { ProductItemSkeleton } from '@components/Product/ProductItemSkeleton';
 import { useGetProductListQuery } from '@/hooks/queries/useGetProductListQuery';
 import { useScrollPosition } from '@/hooks/common/useScrollPosition';
 import { Product } from '@/types/product';
@@ -25,9 +26,24 @@ export default function ProductListPage() {
         {products?.map((product: Product) => (
           <ProductItem key={product.id} {...product} />
         ))}
+        {isLoading && <ProductListSkeleton />}
       </section>
 
       <div ref={ref} />
     </>
   );
 }
+
+const ProductListSkeleton = () => (
+  <>
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+    <ProductItemSkeleton />
+  </>
+);
