@@ -64,7 +64,7 @@ const buttonStyle = flex({
   border: '1px solid #d1d1d1',
   padding: '6px',
   width: '100%',
-  borderRadius: '0',
+  borderRadius: 'unset',
 });
 
 const inputStyle = flex({
@@ -76,6 +76,6 @@ const inputStyle = flex({
   border: '1px solid #d1d1d1',
   borderLeft: 'none',
   borderRight: 'none',
-  padding: 0,
+  padding: 'unset',
   color: 'gray.500',
 });

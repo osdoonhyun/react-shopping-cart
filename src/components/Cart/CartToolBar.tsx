@@ -56,8 +56,8 @@ const cartToolBarSection = flex({
 
 const removeButton = css({
   display: 'inline',
-  padding: '0',
-  borderRadius: '0',
+  padding: 'unset',
+  borderRadius: 'unset',
   borderBottom: '1px solid #bbb',
   fontSize: '14px',
   color: 'gray.500',
