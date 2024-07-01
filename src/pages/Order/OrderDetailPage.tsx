@@ -5,15 +5,15 @@ import OrderTitle from '@components/Order/@common/OrderTitle';
 import OrderHeader from '@components/Order/@common/OrderHeader';
 import Divider from '@components/common/Divider/Divider';
 import Image from '@components/common/Image/Image';
+import { Route } from '@/routes/orderList_.$orderId';
+import { OrderDetail } from '@/types/order';
 import { formatToKRW } from '@/utils/formatter';
-import { Order, OrderDetail } from '@/types/order';
 import { calculateTotalAmount } from '@/utils/order';
 
-interface OrderDetailPayload {
-  id: Order['id'];
-}
+export default function OrderDetailPage() {
+  const { orderId } = Route.useParams() as { orderId: string };
+  const id = Number(orderId);
 
-export default function OrderDetailPage({ id }: OrderDetailPayload) {
   // TODO: 서버 데이터
   // const { orderDetails } = useGetOrderDetailQuery({ id });
   const getOrderById = useOrderStore.use.getOrderById();

@@ -7,19 +7,19 @@ import OrderTitle from '@components/Order/@common/OrderTitle';
 import OrderResultPayments from '@components/Order/Result/OrderResultPayments';
 import OrderResultHeader from '@components/Order/Result/OrderResultHeader';
 import OrderResultItem from '@components/Order/Result/OrderResultItem';
-import { Order, OrderDetail } from '@/types/order';
+import { Route } from '@/routes/orderList_.$orderId';
+import { OrderDetail } from '@/types/order';
 import { calculateTotalAmount } from '@/utils/order';
 
-interface OrderResultPayload {
-  id: Order['id'];
-}
-
-export default function OrderResultPage({ id }: OrderResultPayload) {
+export default function OrderResultPage() {
+  const { orderId } = Route.useParams() as { orderId: string };
   const navigate = useNavigate();
 
   const openAlertDialog = useAlertDialog.use.onOpen();
 
-  const { orderDetails: orderResult } = useGetOrderDetailQuery({ id });
+  const { orderDetails: orderResult } = useGetOrderDetailQuery({
+    id: Number(orderId),
+  });
 
   const handlePaymentButtonClick = () => {
     openAlertDialog({

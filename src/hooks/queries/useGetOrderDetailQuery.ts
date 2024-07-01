@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { getOrderDetail } from '@/apis/Order/getOrderDetail';
 import { ORDER_QUERY_KEYS } from '@/constants/queryKey';
-import { Order } from '@/types/order';
 
-export const useGetOrderDetailQuery = ({ id }: Pick<Order, 'id'>) => {
+type UseGetOrderDetailQuery = {
+  id: number;
+};
+
+export const useGetOrderDetailQuery = ({ id }: UseGetOrderDetailQuery) => {
   const { data } = useQuery({
     queryKey: ORDER_QUERY_KEYS.DETAIL(id),
     queryFn: () => getOrderDetail({ id }),
