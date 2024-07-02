@@ -30,11 +30,5 @@ export default function App() {
 
 const DataSyncer = () => {
   useSyncWithClientAndServer();
-  console.log({
-    env: process.env.NODE_ENV,
-    process: import.meta.env.MODE === 'production',
-    mode: import.meta.env.MODE,
-    meta: import.meta.env,
-  });
   return null;
 };
