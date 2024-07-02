@@ -6,6 +6,8 @@
 
 <br />
 
+### 👀 [배포 URL](https://react-shopping-cart-payments-five.vercel.app)
+
 > [NEXTSTE TDD, 클린 코드 with React 3기](https://edu.nextstep.camp/c/QoTvUh4y) 에서 진행한 장바구니 미션입니다.
 
 일상생활에서 쉽게 접할 수 있는 식재료를 구매할 수 있는 쇼핑몰입니다.<br/>
@@ -15,7 +17,7 @@
 
 ### 🛠️ 기술 스택
 
-<img alt="react-shopping-mall-techstack" src="https://github.com/next-step/react-shopping-cart/assets/87527736/858d2e93-2211-46e9-b8b7-0c98ea0ca044" width="60%"  style="background-color: #f0f0f0; padding-top:10px;" />
+<img width="60%"  style="background-color: #f0f0f0; padding-top:10px;"  alt="react-shopping-mall-techstack" src="https://github.com/next-step/react-shopping-cart/assets/87527736/dc57a308-afd7-422c-8548-4df800cc2eb3">
 
 <br /><br />
 
