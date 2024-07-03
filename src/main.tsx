@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
+import { OverlayProvider } from 'near-payments';
 
 async function enableMocking() {
   // if (process.env.NODE_ENV !== 'development') {
@@ -17,7 +18,9 @@ const root = ReactDOM.createRoot(document.getElementById('root')!);
 enableMocking().then(() => {
   root.render(
     <React.StrictMode>
-      <App />
+      <OverlayProvider>
+        <App />
+      </OverlayProvider>
     </React.StrictMode>
   );
 });
