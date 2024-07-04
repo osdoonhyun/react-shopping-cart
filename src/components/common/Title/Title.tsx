@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { css, cx } from '@/styled-system/css';
 import { SystemStyleObject } from '@/styled-system/types';
 
-type TitleProps = PropsWithChildren<{
+export type TitleProps = PropsWithChildren<{
   variant?: 'title' | 'subtitle';
   as?: 'h2' | 'h3';
   css?: SystemStyleObject;

@@ -29,7 +29,7 @@ export default function Button({
   );
 }
 
-const button = cva({
+export const button = cva({
   base: {
     width: 'auto',
     height: 'auto',

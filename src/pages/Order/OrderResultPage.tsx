@@ -123,7 +123,7 @@ const orderResultItemContainer = flex({
   gap: '20px',
 });
 
-const orderResultPaymentsSection = css({
+export const orderResultPaymentsSection = css({
   position: {
     base: 'fixed',
     lg: 'static',

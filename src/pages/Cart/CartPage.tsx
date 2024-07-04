@@ -47,7 +47,7 @@ const cartTableSection = flex({
   flexGrow: 1,
 });
 
-const cartPaymentsSection = css({
+export const cartPaymentsSection = css({
   position: {
     base: 'fixed',
     lg: 'static',

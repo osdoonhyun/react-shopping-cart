@@ -1,7 +1,7 @@
 import { HTMLProps } from 'react';
 import { cva, cx } from '@/styled-system/css';
 
-type DividerProps = HTMLProps<HTMLHRElement> & {
+export type DividerProps = HTMLProps<HTMLHRElement> & {
   color?: 'gray' | 'lightGray';
 };
 
