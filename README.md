@@ -1,12 +1,8 @@
 <p align="middle" >
    <img src="https://techcourse-storage.s3.ap-northeast-2.amazonaws.com/3e6c6f30b11d4b098b5a3e81be19ce3a" width="250">
 </p>
-<h2 align="middle">NEXTSTEP 장바구니 미션</h2>
-</p>
 
-<br />
-
-### 👀 [배포 URL](https://react-shopping-cart-payments-five.vercel.app)
+**<h3 align="center">👀 [배포 URL](https://react-shopping-cart-payments-five.vercel.app) 📚 [Storybook](https://668638728fdb27c1a328d604-dguoboenwu.chromatic.com/)</h3>**
 
 > [NEXTSTE TDD, 클린 코드 with React 3기](https://edu.nextstep.camp/c/QoTvUh4y) 에서 진행한 장바구니 미션입니다.
 
