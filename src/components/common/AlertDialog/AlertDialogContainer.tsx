@@ -11,7 +11,7 @@ export default function AlertDialogContainer() {
   const message = useAlertDialogStore.use.message();
   const btnText = useAlertDialogStore.use.btnText();
   const onConfirm = useAlertDialogStore.use.onConfirm();
-  const onClose = useAlertDialogStore.use.onClose();
+  const close = useAlertDialogStore.use.close();
 
   useEffect(() => {
     if (isOpen) {
@@ -29,12 +29,12 @@ export default function AlertDialogContainer() {
 
   const handleConfirm = () => {
     onConfirm();
-    onClose();
+    close();
   };
 
   return createPortal(
     <>
-      <div className={alertDialogContainer} onClick={onClose}></div>
+      <div className={alertDialogContainer} onClick={close}></div>
       <div className={alertDialogContent}>
         <h2 className={alertDialogTitle}>{title}</h2>
         <p className={alertDialogMessage}>{message}</p>
@@ -42,7 +42,7 @@ export default function AlertDialogContainer() {
           <button className={alertDialogConfirmButton} onClick={handleConfirm}>
             {btnText}
           </button>
-          <button className={alertDialogCancelButton} onClick={onClose}>
+          <button className={alertDialogCancelButton} onClick={close}>
             닫기
           </button>
         </div>

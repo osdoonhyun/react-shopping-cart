@@ -8,10 +8,10 @@ interface AlertDialogOption {
   onConfirm: () => void;
 }
 
-interface AlertDialogState extends AlertDialogOption {
+export interface AlertDialogState extends AlertDialogOption {
   isOpen: boolean;
   onOpen: (options: AlertDialogOption) => void;
-  onClose: () => void;
+  close: () => void;
 }
 
 const useAlertDialogStoreBase = create<AlertDialogState>()((set) => ({
@@ -21,7 +21,7 @@ const useAlertDialogStoreBase = create<AlertDialogState>()((set) => ({
   btnText: '',
   onConfirm: () => {},
   onOpen: (options) => set({ isOpen: true, ...options }),
-  onClose: () => set({ isOpen: false }),
+  close: () => set({ isOpen: false }),
 }));
 
 export default createSelectors(useAlertDialogStoreBase);
