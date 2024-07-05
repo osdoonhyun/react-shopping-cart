@@ -26,8 +26,10 @@
       "@components/*": ["src/components/*"],
       "@/*": ["src/*"],
       "@styled-system/*": ["src/styled-system/*"]
-    }
+    },
+
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src", "src/styled-system", "panda.config.ts"],
+  "include": ["src", "src/styled-system", "panda.config.ts", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
